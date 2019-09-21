@@ -33,9 +33,11 @@ ActiveRecord::Schema.define(version: 2019_09_16_182054) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "user_id"
-    t.string "secret"
+    t.string "user_id", null: false
+    t.string "secret", null: false
     t.string "role", array: true
+    t.string "device_type"
+    t.string "notification_token"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
