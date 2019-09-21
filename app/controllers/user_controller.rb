@@ -3,7 +3,7 @@ class UserController < ApplicationController
   protect_from_forgery :except => [:new,:update_notification_token]
 
   def new
-    if params["device_type"].present? then
+    if !params["device_type"].present? then
       render json:{"status" => "error", "description" => "device_type is required"},status:400
       return
     end
