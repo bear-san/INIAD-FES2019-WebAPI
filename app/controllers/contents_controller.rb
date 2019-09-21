@@ -1,4 +1,7 @@
 class ContentsController < ApplicationController
+  protect_from_forgery :except => [:dump]
+  before_action :authentication
+
   def dump
     contents = Content.all
     data = []
