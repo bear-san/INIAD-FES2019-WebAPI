@@ -1,5 +1,5 @@
 class UserController < ApplicationController
-  before_action :authentication, :except => new
+  before_action :authentication, :except => [:new]
   protect_from_forgery :except => [:new,:update_notification_token]
 
   def new
