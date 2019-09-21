@@ -4,12 +4,12 @@ class ApplicationController < ActionController::Base
       token = request.headers["Authorization"]
       user = User.find_by_secret(/Bearer (.*)/.match(token)[1])
 
-      if user.present? then
+      if !user.present? then
         raise()
       end
 
     rescue
-      render json:{"status" => "error", "deacription" => "authorization failed"},status:403
+      render json:{"status" => "error", "description" => "authorization failed"},status:403
       return
     end
 

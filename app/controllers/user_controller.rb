@@ -21,8 +21,9 @@ class UserController < ApplicationController
   end
 
   def update_notification_token
-    if params["device_token"].present? then
+    if !params["device_token"].present? then
       render json:{"status" => "error", "description" => "required parameters missing"},status:400
+      return
     end
 
     user = User.find_by_user_id(@user.user_id)
