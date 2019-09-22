@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_16_182054) do
+ActiveRecord::Schema.define(version: 2019_09_22_062807) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "contents", force: :cascade do |t|
-    t.string "uuid"
+    t.string "ucode"
     t.string "title"
     t.string "description"
     t.string "organizer"
@@ -26,8 +26,17 @@ ActiveRecord::Schema.define(version: 2019_09_16_182054) do
   end
 
   create_table "organizations", force: :cascade do |t|
-    t.string "uuid"
+    t.string "ucode"
     t.string "members", array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "rooms", force: :cascade do |t|
+    t.string "room_num"
+    t.string "ucode", array: true
+    t.string "floor"
+    t.string "related_rooms", array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
