@@ -11,7 +11,7 @@ class UserController < ApplicationController
     user = User.new
     user.user_id = SecureRandom.uuid
     user.secret = SecureRandom.alphanumeric(32)
-    user.role = ["participant"]
+    user.role = ["app_user"]
     user.device_type = params["device_type"]
 
     user.save()
