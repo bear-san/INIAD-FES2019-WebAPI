@@ -5,13 +5,18 @@ class ContentsController < ApplicationController
     contents = Content.all
 
     if params["room_num"].present? then
-      contents = contents.where(:place => params["room_num"].split(","))
+      rooms = []
+      Room.where(:room_num => params["room_num"].split(",")).each do|room|
+        rooms.append(room.ucode)
+      end
+
+      contents = contents.where(:place => rooms)
     end
 
     if params["room_near"].present? then
       related_rooms = []
-      Room.where(:room_num => params["room_near"].split(",")).each do|room|
-        related_rooms.append(room.room_num)
+      Room.where("related_rooms @> ?",[params["room_near"]]).each do|room|
+        related_rooms.append(room.ucode)
       end
 
       contents = contents.where(:place => related_rooms)
@@ -20,12 +25,15 @@ class ContentsController < ApplicationController
     data = []
 
     contents.each do|content|
+      place = Room.where("ucode @> ARRAY[?]::varchar[]",content.place).first()
+      organizer = Organization.find_by_ucode(content.organizer)
+
       data.append({
                       "ucode" => content.ucode,
                       "title" => content.title,
                       "description" => content.description,
-                      "organizer" => content.organizer,
-                      "place" => content.place
+                      "organizer" => organizer.organization_name,
+                      "place" => place.room_num
                   })
     end
 
@@ -39,12 +47,15 @@ class ContentsController < ApplicationController
     end
 
     content = Content.find_by_ucode(params["ucode"])
+    place = Room.where("ucode @> ARRAY[?]::varchar[]",content.place).first()
+    organizer = Organization.find_by_ucode(content.organizer)
+
     data = {
         "ucode" => content.ucode,
         "title" => content.title,
         "description" => content.description,
-        "organizer" => content.organizer,
-        "place" => content.place
+        "organizer" => organizer.organization_name,
+        "place" => place.room_num
     }
 
     render json:{"status" => "success", "object" => data}
