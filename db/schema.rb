@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 2019_09_22_062807) do
 
   create_table "organizations", force: :cascade do |t|
     t.string "ucode"
+    t.string "organization_name"
     t.string "members", array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
