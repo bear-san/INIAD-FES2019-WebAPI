@@ -16,10 +16,21 @@ class ContentsController < ApplicationController
     if params["room_near"].present? then
       related_rooms = []
       Room.where("related_rooms @> ?",[params["room_near"]]).each do|room|
-        related_rooms.append(room.ucode)
+        related_rooms += room.ucode
       end
 
       contents = contents.where(:place => related_rooms)
+    end
+
+    if params["floor"].present? then
+      rooms = Room.where(:floor => params["floor"])
+      room_ucodes = []
+
+      rooms.each do|room|
+        room_ucodes += room.ucode
+      end
+
+      contents = contents.where(:place => room_ucodes)
     end
 
     data = []
