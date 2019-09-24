@@ -37,6 +37,8 @@ ActiveRecord::Schema.define(version: 2019_09_22_062807) do
     t.string "room_num"
     t.string "ucode", array: true
     t.string "floor"
+    t.string "door_name", array: true
+    t.string "room_color"
     t.string "related_rooms", array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

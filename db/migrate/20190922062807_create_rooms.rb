@@ -4,6 +4,8 @@ class CreateRooms < ActiveRecord::Migration[5.2]
       t.string :room_num
       t.string :ucode, :array => true
       t.string :floor
+      t.string :door_name, :array => true
+      t.string :room_color
       t.string :related_rooms, :array => true
 
       t.timestamps

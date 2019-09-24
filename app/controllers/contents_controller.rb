@@ -43,8 +43,16 @@ class ContentsController < ApplicationController
                       "ucode" => content.ucode,
                       "title" => content.title,
                       "description" => content.description,
-                      "organizer" => organizer.organization_name,
-                      "place" => place.room_num
+                      "organizer" => {
+                          "ucode" => organizer.ucode,
+                          "organizer_name" => organizer.organization_name
+                      },
+                      "place" => {
+                          "ucode" => place.ucode,
+                          "room_name" => place.room_num,
+                          "door_name" => place.door_name,
+                          "room_color" => place.room_color
+                      }
                   })
     end
 
@@ -65,8 +73,16 @@ class ContentsController < ApplicationController
         "ucode" => content.ucode,
         "title" => content.title,
         "description" => content.description,
-        "organizer" => organizer.organization_name,
-        "place" => place.room_num
+        "organizer" => {
+            "ucode" => organizer.ucode,
+            "organizer_name" => organizer.organization_name
+        },
+        "place" => {
+            "ucode" => place.ucode,
+            "room_name" => place.room_num,
+            "door_name" => place.door_name,
+            "room_color" => place.room_color
+        }
     }
 
     render json:{"status" => "success", "object" => data}

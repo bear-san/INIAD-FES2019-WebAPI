@@ -18,6 +18,8 @@ namespace :room do
       new_room.ucode = room["ucode"]
       new_room.related_rooms = room["related_rooms"]
       new_room.floor = room["floor"]
+      new_room.room_color = room["room_color"]
+      new_room.door_name = room["door_name"]
 
       new_room.save()
     end
