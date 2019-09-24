@@ -29,3 +29,5 @@
 /docker-compose_db.env
 
 /.backup/*
+
+.DS_Store
