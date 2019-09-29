@@ -72,3 +72,28 @@ INIAD-FESで実施されている企画を取得する
 - `status:String`
 - `description:String(Optional)`
 - `object:Object` -> 企画のデータを格納する、構造については前出のものと同様だがArrayでなく1件のみ返す
+
+## 来場受付関係機能
+### 属性登録API： `POST /api/v1/visitor/attributes`
+
+来場者の属性を登録する
+
+**Request Parameter**
+- ＊未定＊
+
+**Response Parameter**
+- `status:String`
+- `description:String(Optional)`
+
+### 来場受付API： `POST /api/v1/visitor/entry/:ucode`
+
+各企画への来場を記録する
+
+**Request Parameter**
+- `:ucode:String` -> 企画に割り振られたucode
+- `user_id:String` -> 来場者のQRコードから読み取ったuser_id
+
+**Response Parameter**
+- `status:String`
+- `description:String(Optional)`
+- `issued_time:DateTime` ->サーバー上で記録された時間、サーバーのローカルタイムをISO8601形式で表現
