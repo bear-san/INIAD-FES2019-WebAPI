@@ -3,6 +3,8 @@
 
 APIのURLのうち、SchemaとHost Domainは事前にシステム管理者が設定をし個別に関係者に連絡するものとし、本API仕様では記載を省略する
 
+特記無き場合、Authorizationヘッダに`Bearer "APIキー"`を含める必要がある（認証できない場合403エラーを返す）
+
 ## 共通機能
 ### ユーザー登録API： `POST /api/v1/user/new` 
 
