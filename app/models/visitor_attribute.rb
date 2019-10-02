@@ -1,0 +1,2 @@
+class VisitorAttribute < ApplicationRecord
+end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_22_062807) do
+ActiveRecord::Schema.define(version: 2019_10_02_050823) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,8 +48,17 @@ ActiveRecord::Schema.define(version: 2019_09_22_062807) do
     t.string "user_id", null: false
     t.string "secret", null: false
     t.string "role", array: true
-    t.string "device_type"
+    t.boolean "is_visited", default: false, null: false
+    t.string "device_type", null: false
     t.string "notification_token"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "visitor_attributes", force: :cascade do |t|
+    t.string "user_id", null: false
+    t.jsonb "attribute"
+    t.jsonb "action_history"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

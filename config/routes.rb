@@ -4,7 +4,6 @@ Rails.application.routes.draw do
 
   scope :api do
     scope :v1 do
-
       scope :user do
         post '/new', to:'user#new'
         post '/', to:'user#update_notification_token'
@@ -13,6 +12,15 @@ Rails.application.routes.draw do
       scope :contents do
         get '/', to:'contents#index'
         get '/:ucode',to:"contents#show"
+      end
+
+      scope :visitor do
+        post 'attributes',to:"visitor#in_app_registration"
+        post 'entry/:ucode',to:"visitor#entry_event"
+      end
+
+      scope :admin do
+        post 'reception', to:"visitor#reception"
       end
     end
   end
