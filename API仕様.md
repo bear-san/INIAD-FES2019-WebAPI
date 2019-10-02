@@ -17,6 +17,16 @@ APIのURLのうち、SchemaとHost Domainは事前にシステム管理者が設
 - `status:String` -> API実行結果、`success`/`error`
 - `secret:String(Optional)` -> APIキー、失敗時は`null`
 - `description:String(Optional)` -> API実行結果を自然言語で表記する
+- `role:Array<String>` -> 作成されたユーザーに付与された権限
+
+**権限について**
+- `developer` -> 以下、`system_admin`と同一、本番環境では運用しない
+- `system_admin` -> システム管理者、全ての権限を有する
+- `fes_admin` -> 実行委員会内での管理者
+- `fes_committee` -> 一般実行委員
+- `app_user` -> アプリユーザー、デフォルト権限
+- `circle_participant` -> 大学祭出展団体
+- `visitor` -> 来場受付を済ませた一般来場者
 
 ### 通知トークンアップデートAPI： `POST /api/v1/user`
 
