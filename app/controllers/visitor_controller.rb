@@ -1,5 +1,5 @@
 class VisitorController < ApplicationController
-  #before_action :authentication, :except => [:in_venue_registration]
+  before_action :authentication, :except => [:in_venue_registration]
   protect_from_forgery :only => :all
 
   def in_venue_registration
@@ -9,7 +9,32 @@ class VisitorController < ApplicationController
 
   def in_app_registration
     # 属性登録（アプリ経由）
+    if @user.role.include?("visitor") then
+      render json:{"status" => "error", "description" => "visitor attribute has already registered"},status:409
+      return
+    end
 
+    if !params["gender"].present? or !params["age"].present? or !params["job"].present? or !params["number_of_people"].present? then
+      render json:{"status" => "error", "description" => "parameter missing"},status:400
+      return
+    end
+
+    new_attribute = VisitorAttribute.new
+    new_attribute.user_id = @user.user_id
+    new_attribute.action_history = {
+        "visit" => []
+    }
+    new_attribute.visitor_attribute = {
+        "gender" => params["gender"],
+        "age" => params["age"],
+        "job" => params["job"],
+        "number_of_people" => params["number_of_people"]
+    }
+
+    new_attribute.save()
+
+    render json:{"status" => "success", "description" => "register attribute has been successfully"}
+    return
   end
 
   def reception
@@ -22,7 +47,7 @@ class VisitorController < ApplicationController
     begin
       user = User.find_by_user_id(params["user_id"])
 
-      if !UserAttribute.find_by_user_name(user.user_id).present? then
+      if !VisitorAttribute.find_by_user_name(user.user_id).present? then
         render json:{"status" => "error", "description" => "Specified user isn't register user attributes."},status:400
         return
       end

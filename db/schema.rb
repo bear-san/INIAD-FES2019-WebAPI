@@ -57,8 +57,9 @@ ActiveRecord::Schema.define(version: 2019_10_02_050823) do
 
   create_table "visitor_attributes", force: :cascade do |t|
     t.string "user_id", null: false
-    t.jsonb "attribute"
+    t.jsonb "visitor_attribute"
     t.jsonb "action_history"
+    t.jsonb "enquete"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
