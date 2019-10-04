@@ -60,6 +60,9 @@ class VisitorController < ApplicationController
     user.is_visited = true
     user.role.append("visitor")
     user.save()
+
+    render json:{"status" => "success", "description" => "visitor reception has been successfull, welcome to INIAD-FES!"},status:200
+    return
   end
 
   def entry_event
@@ -77,7 +80,7 @@ class VisitorController < ApplicationController
     end
 
     organizer = Organization.find_by_ucode(content.organizer)
-    if !(@user.role.include & ["developer","system_admin","fes_admin","fes_committee"]).present? and !organizer.members.include?(@user.user_id) then
+    if !(@user.role & ["developer","system_admin","fes_admin","fes_committee"]).present? and !organizer.members.include?(@user.user_id) then
       render json:{"status" => "error", "description" => "permission denied"},status:403
       return
     end
