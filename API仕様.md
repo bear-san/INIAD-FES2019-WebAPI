@@ -107,3 +107,15 @@ INIAD-FESで実施されている企画を取得する
 - `status:String`
 - `description:String(Optional)`
 - `issued_time:DateTime` ->サーバー上で記録された時間、サーバーのローカルタイムをISO8601形式で表現
+
+## 管理機能
+### 来場受付API（INIAD-FES受付）： `POST /api/v1/admin/reception`
+
+INIAD-FES自体への来場を記録する
+
+**Request Parameter**
+- `user_id` -> 読み取ったQRから取得できたuser_id
+
+**Response Parameter**
+- `status:String`
+- `description:String(Optional)`
