@@ -47,7 +47,7 @@ class VisitorController < ApplicationController
     begin
       user = User.find_by_user_id(params["user_id"])
 
-      if !VisitorAttribute.find_by_user_name(user.user_id).present? then
+      if !VisitorAttribute.find_by_user_id(user.user_id).present? then
         render json:{"status" => "error", "description" => "Specified user isn't register user attributes."},status:400
         return
       end
