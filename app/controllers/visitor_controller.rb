@@ -20,7 +20,7 @@ class VisitorController < ApplicationController
     end
 
     new_attribute = VisitorAttribute.new
-    new_attribute.user_id = user.user_id
+    new_attribute.user_id = @user.user_id
     new_attribute.action_history = {
         "visit" => []
     }
