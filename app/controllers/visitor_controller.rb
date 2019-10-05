@@ -99,4 +99,34 @@ class VisitorController < ApplicationController
     render json:{"status" => "success", "description" => "visitor entry process has been successfully", "timestamp" => timestamp}
     return
   end
+
+  def dump_data
+    if !params["user_id"].present? then
+      data = VisitorAttribute.find_by_user_id(@user.user_id)
+
+      if data.present? then
+        render json:{"status" => "success", "history" => data.action_history, "attribute" => data.visitor_attribute}
+        return
+      else
+        render json:{"status" => "error", "description" => "not found"},status:404
+        return
+      end
+    end
+
+    if @user.role & ["developer","system_admin","fes_admin"].present? then
+      # 管理者が特定のユーザーのアクティビティを表示する場合
+      data = VisitorAttribute.find_by_user_id(params["user_id"])
+
+      if data.present? then
+        render json:{"status" => "success", "history" => data.action_history, "attribute" => data.visitor_attribute}
+        return
+      else
+        render json:{"status" => "error", "description" => "not found"},status:404
+        return
+      end
+    else
+      render json:{"status" => "error", "description" => "permission denied"},status:403
+      return
+    end
+  end
 end

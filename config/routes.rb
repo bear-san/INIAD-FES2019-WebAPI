@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       end
 
       scope :visitor do
+        get '/',to:"visitor#dump_data"
         post 'attributes',to:"visitor#in_app_registration"
         post 'entry/:ucode',to:"visitor#entry_event"
       end
