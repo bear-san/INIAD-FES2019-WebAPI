@@ -113,7 +113,7 @@ class VisitorController < ApplicationController
       end
     end
 
-    if @user.role & ["developer","system_admin","fes_admin"].present? then
+    if (@user.role & ["developer","system_admin","fes_admin"]).present? then
       # 管理者が特定のユーザーのアクティビティを表示する場合
       data = VisitorAttribute.find_by_user_id(params["user_id"])
 
