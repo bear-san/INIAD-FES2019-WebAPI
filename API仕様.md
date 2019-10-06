@@ -39,8 +39,21 @@ APIのURLのうち、SchemaとHost Domainは事前にシステム管理者が設
 - `status`
 - `description:String(Optional)`
 
+### ユーザー確認API： `GET /api/v1/user`
+
+認証されたユーザーの情報を取得する
+
+**Request Parameter**
+- なし
+
+**Response Parameter**
+- `status:String`
+- `description:String(Optional)`
+- `role:Array<String>` -> ユーザーに付与されている権限
+- `member_of:Array<String>` -> ユーザーが所属している団体
 ## デジタルパンフレット関係機能
 ### 企画一覧API： `GET /api/v1/contents`
+
 
 INIAD-FESで実施されている企画を取得する
 
