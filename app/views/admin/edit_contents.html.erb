@@ -1,0 +1,72 @@
+<h2>企画情報の編集</h2>
+<% if @content.present? then %>
+  <form id="content-form" method="post">
+    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+    <%= hidden_field_tag :patch_to, params[:ucode] %>
+    <div class="form-group">
+      <label for="content-title">企画名</label>
+      <input class="form-control" id="content-title" name="title" placeholder="企画名" value="<%= @content.title %>">
+    </div>
+    <div class="form-group">
+      <label for="content-organizer">企画実施団体</label>
+      <select class="form-control" id="content-organizer" name="organizer">
+        <% Organization.all.order(:ucode).reverse().each do|organization| %>
+          <% if organization.ucode == @content.organizer then %>
+            <option selected value="<%= organization.ucode %>"><%= organization.organization_name %></option>
+          <% else %>
+            <option value="<%= organization.ucode %>"><%= organization.organization_name %></option>
+          <% end %>
+        <% end %>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="content-room">企画実施場所</label>
+      <select class="form-control" id="content-room" name="place">
+        <% Room.all.order(:ucode).reverse().each do|room| %>
+          <% if room.ucode.include?(@content.place) then %>
+            <option selected value="<%= room.ucode[0] %>"><%= room.room_num %></option>
+          <% else %>
+            <option value="<%= room.ucode[0] %>"><%= room.room_num %></option>
+          <% end %>
+        <% end %>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="content-description">企画の概要</label>
+      <textarea class="form-control" id="content-description" name="description" placeholder="企画の概要" rows="10"><%= @content.description %></textarea>
+    </div>
+
+    <a class="btn btn-outline-secondary" href="/admin/contents">キャンセル</a>
+    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#confirmModal">
+      登録
+    </button>
+    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="comfirmModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="comfirmModalLabel">確認</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>「登録」をクリックすると、直ちに変更が反映され、Webサイト及び公式アプリ上の情報に影響します</p>
+            <p>内容については、事前の確認を受けてください</p>
+            <p>登録しますか？</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">キャンセル</button>
+            <input type="button" class="btn btn-outline-primary" onclick="$('#content-form').submit();" value="登録">
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+<script>
+    $("input[name = title]").keypress(function (e) {
+        if (e.which === 13) {
+            return false;
+        }
+    });
+</script>
+<% end %>

@@ -28,7 +28,11 @@ Rails.application.routes.draw do
   end
 
   scope :admin do
-    get "contents" ,to:"admin#show_contents"
+    get "contents",to:"admin#show_contents"
+    get "contents/new",to:"admin#create_contents_page"
+    post "contents/new",to:"admin#create_contents"
+    get "contents/edit/:ucode",to:"admin#edit_contents"
+    post "contents/edit/:ucode",to:"admin#update_contents"
   end
 
   match "*path" => "application#not_found", via: :all
