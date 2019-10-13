@@ -33,7 +33,7 @@ class VisitorController < ApplicationController
 
     new_attribute.save()
 
-    render json:{"status" => "success", "description" => "register attribute has been successfully"}
+    render json:{"status" => "success", "description" => "register attribute has been successfully", "visitor_code" => @user.user_id}
     return
   end
 
@@ -105,10 +105,10 @@ class VisitorController < ApplicationController
       data = VisitorAttribute.find_by_user_id(@user.user_id)
 
       if data.present? then
-        render json:{"status" => "success", "history" => data.action_history, "attribute" => data.visitor_attribute}
+        render json:{"status" => "success", "role" => @user.role, "history" => data.action_history, "attribute" => data.visitor_attribute}
         return
       else
-        render json:{"status" => "error", "description" => "not found"},status:404
+        render json:{"status" => "success", "role" => @user.role, "history" => nil, "attribute" => nil},status:200
         return
       end
     end
@@ -116,12 +116,13 @@ class VisitorController < ApplicationController
     if (@user.role & ["developer","system_admin","fes_admin"]).present? then
       # 管理者が特定のユーザーのアクティビティを表示する場合
       data = VisitorAttribute.find_by_user_id(params["user_id"])
+      user = User.find_by_user_id(params["user_id"])
 
       if data.present? then
-        render json:{"status" => "success", "history" => data.action_history, "attribute" => data.visitor_attribute}
+        render json:{"status" => "success","role" => user.role, "history" => data.action_history, "attribute" => data.visitor_attribute}
         return
       else
-        render json:{"status" => "error", "description" => "not found"},status:404
+        render json:{"status" => "success", "role" => user.role, "history" => nil, "attribute" => nil},status:200
         return
       end
     else

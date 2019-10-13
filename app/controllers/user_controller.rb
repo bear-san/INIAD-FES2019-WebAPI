@@ -33,4 +33,8 @@ class UserController < ApplicationController
 
     render json:{"status" => "success", "description" => "notification token update has been successfully"}
   end
+
+  def dump_data
+    
+  end
 end
