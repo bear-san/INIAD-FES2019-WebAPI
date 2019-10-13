@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :fes_users, :only => []
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   #
 
@@ -24,6 +25,10 @@ Rails.application.routes.draw do
         post 'reception', to:"visitor#reception"
       end
     end
+  end
+
+  scope :admin do
+    get "contents" ,to:"admin#show_contents"
   end
 
   match "*path" => "application#not_found", via: :all
