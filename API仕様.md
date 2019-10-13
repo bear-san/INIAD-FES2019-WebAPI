@@ -39,8 +39,21 @@ APIのURLのうち、SchemaとHost Domainは事前にシステム管理者が設
 - `status`
 - `description:String(Optional)`
 
+### ユーザー確認API： `GET /api/v1/user`
+
+認証されたユーザーの情報を取得する
+
+**Request Parameter**
+- なし
+
+**Response Parameter**
+- `status:String`
+- `description:String(Optional)`
+- `role:Array<String>` -> ユーザーに付与されている権限
+- `member_of:Array<String>` -> ユーザーが所属している団体
 ## デジタルパンフレット関係機能
 ### 企画一覧API： `GET /api/v1/contents`
+
 
 INIAD-FESで実施されている企画を取得する
 
@@ -84,6 +97,28 @@ INIAD-FESで実施されている企画を取得する
 - `object:Object` -> 企画のデータを格納する、構造については前出のものと同様だがArrayでなく1件のみ返す
 
 ## 来場受付関係機能
+### ユーザー属性ダンプAPI： `GET /api/v1/visitor`
+
+指定したユーザー、もしくは認証されたユーザーの情報をダンプする
+
+**Request Parameter**
+- `user_id:String(Optional)` -> user_id、指定しない場合は認証されたユーザーの情報をダンプする
+
+**Response Parameter**
+- `status:String`
+- `description:String(Optional)`
+- `role:Array<String>` -> ユーザーに付与されている権限
+- `history:Array<Object>` -> 企画来訪の履歴、以下参照
+```
+"visit": [
+  {
+    "ucode": "企画に付与されているucode",
+    "timestamp": "来場の時間のタイムスタンプ、ISO8601形式"
+  }
+]
+```
+- `attribute:Object` -> 来場者の属性
+
 ### 属性登録API： `POST /api/v1/visitor/attributes`
 
 来場者の属性を登録する
