@@ -1,0 +1,2 @@
+class Ucode < ApplicationRecord
+end
