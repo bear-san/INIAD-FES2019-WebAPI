@@ -1,0 +1,15 @@
+<h2>組織一覧</h2>
+<table class="table">
+  <tr>
+    <td scope="row">ID</td>
+    <td>団体名</td>
+    <td>編集</td>
+  </tr>
+  <% @organizations.each do|organization| %>
+    <tr>
+      <td scope="row"><%= organization.id %></td>
+      <td><%= organization.organization_name %></td>
+      <td><a class="btn btn-outline-primary" href="/admin/organizations/edit/<%= organization.ucode %>">編集</a></td>
+    </tr>
+  <% end %>
+</table>

@@ -13,7 +13,6 @@ namespace :content do
     Content.all.destroy_all
     dict.each do|content|
       new_content = Content.new
-      new_content.id = content["id"]
       new_content.ucode = content["ucode"]
       new_content.organizer = content["organizer"]
       new_content.place = content["place"]

@@ -13,7 +13,6 @@ namespace :organization do
     Organization.all.destroy_all
     dict.each do|org|
       organization = Organization.new
-      organization.id = org["id"]
       organization.ucode = org["ucode"]
       organization.members = org["members"]
       organization.organization_name = org["organization_name"]

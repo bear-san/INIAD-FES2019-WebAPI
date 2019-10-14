@@ -33,6 +33,11 @@ Rails.application.routes.draw do
     post "contents/new",to:"admin#create_contents"
     get "contents/edit/:ucode",to:"admin#edit_contents"
     post "contents/edit/:ucode",to:"admin#update_contents"
+
+    get "organizations",to:"admin#show_organizer"
+    get "organizations/new",to:"admin#create_organizer_page"
+    post 'organizations/new',to:"admin#create_organizer"
+    get "organizations/edit/:ucode",to:"admin#edit_organizer_page"
   end
 
   match "*path" => "application#not_found", via: :all

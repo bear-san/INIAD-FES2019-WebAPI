@@ -13,7 +13,6 @@ namespace :room do
     Room.all.destroy_all
     dict.each do|room|
       new_room = Room.new
-      new_room.id = room["id"]
       new_room.room_num = room["room_num"]
       new_room.ucode = room["ucode"]
       new_room.related_rooms = room["related_rooms"]
