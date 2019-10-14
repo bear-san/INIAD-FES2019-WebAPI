@@ -1,16 +1,14 @@
-<h2>新規組織登録</h2>
-<form id="organizer-form" method="post">
+<h2>ユーザー登録</h2>
+<form id="user_form" method="post">
   <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
   <div class="form-group">
-    <label for="organization-name">組織名</label>
-    <input class="form-control" id="organization-name" name="organization_name" placeholder="組織名">
+    <label for="iniad_id">INIAD ID</label>
+    <input class="form-control" id="iniad_id" name="iniad_id">
   </div>
   <div class="form-group">
-    <label for="member">メンバー</label>
-    <input class="form-control" id="members" name="members" placeholder="s1f101700000,s1f101800000,s1f101900000">
-  </div>
-  <hr>
-  <a class="btn btn-outline-secondary" href="/admin/organizations">キャンセル</a>
+    <label for="role">権限</label>
+    <input class="form-control" id="role" name="role">
+  </div><a class="btn btn-outline-secondary" href="/admin/users">キャンセル</a>
   <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#confirmModal">
     登録
   </button>
@@ -24,22 +22,14 @@
           </button>
         </div>
         <div class="modal-body">
-          <p>「登録」をクリックすると、直ちに変更が反映され、Webサイト及び公式アプリ上の情報に影響します</p>
+          <p>「登録」をクリックすると、直ちに変更が反映され、権限設定に影響します</p>
           <p>登録しますか？</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">キャンセル</button>
-          <input type="button" class="btn btn-outline-primary" onclick="$('#organizer-form').submit();" value="登録">
+          <input type="button" class="btn btn-outline-primary" onclick="$('#user_form').submit();" value="登録">
         </div>
       </div>
     </div>
   </div>
 </form>
-
-<script>
-    $("input[name = title]").keypress(function (e) {
-        if (e.which === 13) {
-            return false;
-        }
-    });
-</script>

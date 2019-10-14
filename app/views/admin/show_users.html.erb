@@ -1,0 +1,17 @@
+<h2>管理ユーザー一覧</h2>
+<table class="table">
+  <tr>
+    <td scope="row">INIAD ID</td>
+    <td>氏名</td>
+    <td>権限</td>
+    <td>編集</td>
+  </tr>
+  <% @users.each do|user| %>
+    <tr>
+      <td scope="row"><%= user.iniad_id %></td>
+      <td><%= user.name %></td>
+      <td><%= user.role.join(",") %></td>
+      <td><a class="btn btn-outline-primary" href="/admin/users/<%= user.iniad_id %>/edit">編集</a></td>
+    </tr>
+  <% end %>
+</table>

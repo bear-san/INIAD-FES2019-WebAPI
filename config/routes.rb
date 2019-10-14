@@ -28,16 +28,29 @@ Rails.application.routes.draw do
   end
 
   scope :admin do
+    get "/",to:"admin#index"
     get "contents",to:"admin#show_contents"
     get "contents/new",to:"admin#create_contents_page"
     post "contents/new",to:"admin#create_contents"
-    get "contents/edit/:ucode",to:"admin#edit_contents"
-    post "contents/edit/:ucode",to:"admin#update_contents"
+    get "contents/:ucode/edit",to:"admin#edit_contents"
+    post "contents/:ucode/edit",to:"admin#update_contents"
 
     get "organizations",to:"admin#show_organizer"
     get "organizations/new",to:"admin#create_organizer_page"
     post 'organizations/new',to:"admin#create_organizer"
-    get "organizations/edit/:ucode",to:"admin#edit_organizer_page"
+    get "organizations/:ucode/edit",to:"admin#edit_organizer_page"
+    post 'organizations/:ucode/edit',to:"admin#edit_organizer"
+
+    get 'users',to:"admin#show_users_page"
+    get 'users/new',to:"admin#create_users_page"
+    post 'users/new',to:"admin#create_users"
+    get 'users/:iniad_id/edit',to:"admin#edit_users_page"
+    post 'users/:iniad_id/edit',to:"admin#edit_users"
+  end
+
+  scope :auth do
+    get "g",to:"admin#auth"
+    get "g/callback",to:"admin#auth_callback"
   end
 
   match "*path" => "application#not_found", via: :all

@@ -55,6 +55,8 @@
     <orderEntry type="library" scope="PROVIDED" name="concurrent-ruby (v1.1.5, rbenv: 2.6.0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="crass (v1.0.4, rbenv: 2.6.0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="devise (v4.6.2, rbenv: 2.6.0) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="dotenv (v2.7.2, rbenv: 2.6.0) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="dotenv-rails (v2.7.2, rbenv: 2.6.0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="erubi (v1.8.0, rbenv: 2.6.0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="execjs (v2.7.0, rbenv: 2.6.0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ffi (v1.11.1, rbenv: 2.6.0) [gem]" level="application" />

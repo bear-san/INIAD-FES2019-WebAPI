@@ -1,4 +1,72 @@
+require "net/http"
+require "open-uri"
+require "base64"
+require "devise"
+
 class AdminController < ApplicationController
+  include Devise::Controllers::SignInOut
+
+  def index
+    if signed_in? then
+      render json:current_fes_user
+    else
+      render plain:"not signed in"
+    end
+  end
+
+  def auth
+    redirect_to "https://accounts.google.com/o/oauth2/auth?client_id=#{ENV["GOOGLE_OAUTH_CLIENTID"]}&redirect_uri=#{ENV["SERVER_HOST"]}%2Fauth%2Fg%2Fcallback&response_type=code&scope=openid%20email%20profile&hd=iniad.org"
+  end
+
+  def auth_callback
+    url = "https://accounts.google.com/o/oauth2/token"
+    uri = URI.parse(url)
+    req_parameter = {
+        "code" => params["code"],
+        "client_id" => ENV["GOOGLE_OAUTH_CLIENTID"],
+        "client_secret" => ENV["GOOGLE_OAUTH_SECRET"],
+        "grant_type" => "authorization_code",
+        "redirect_uri" => "#{ENV["SERVER_HOST"]}/auth/g/callback"
+    }
+
+    request = Net::HTTP::Post.new(uri.path)
+    request.set_form_data(req_parameter)
+
+    http = Net::HTTP.new(uri.host,uri.port)
+    http.use_ssl = true
+    response = http.start do |http|
+      http.use_ssl = true
+      http.request(request)
+    end
+
+    response_json_object = JSON(response.body)
+    id_token = JSON(Base64.decode64(response_json_object["id_token"].split(".")[1]))
+    if id_token["hd"] != "iniad.org" then
+      flash[:error] = "danger:システムアクセス権がありません"
+      redirect_to "/admin"
+      return
+    end
+
+    access_token = response_json_object["access_token"]
+    userinfo = JSON(open("https://www.googleapis.com/oauth2/v1/userinfo?access_token=#{access_token}").read)
+
+    user = FesUser.find_by_iniad_id(userinfo["email"].split("@")[0])
+    if !user.present? then
+      flash[:error] = "danger:システムアクセス権がありません"
+      redirect_to "/admin"
+      return
+    end
+
+    bypass_sign_in user
+    if session[:current_access].present? then
+      redirect_to session[:current_access]
+      return
+    else
+      redirect_to "/admin"
+      return
+    end
+  end
+
   def show_contents
     @contents = Content.all.order(:id)
   end
@@ -110,7 +178,9 @@ class AdminController < ApplicationController
     new_organization.ucode = ucode.ucode
     new_organization.organization_name = params["organization_name"]
     begin
-      new_organization.members = params["member"].split(",")
+      new_organization.members = params["members"].split(",")
+    rescue
+      new_organization.members = []
     end
 
     new_organization.save()
@@ -121,6 +191,33 @@ class AdminController < ApplicationController
     redirect_to "/admin/organizations"
   end
 
+  def edit_organizer
+    data = Organization.find_by_ucode(params[:patch_to])
+    if !data.present? then
+      flash[:error] = "danger:不正な値が含まれています"
+      redirect_to request.referer
+      return
+    end
+
+    if !params["organization_name"].present? then
+      flash[:error] = "warning:組織名を空欄にすることはできません"
+      redirect_to request.referer
+      return
+    end
+
+    data.organization_name = params["organization_name"]
+    begin
+      data.members = params["members"].split(",")
+    rescue
+      data.members = []
+    end
+
+    data.save()
+
+    flash[:error] = "success:更新が完了しました"
+    redirect_to "/admin/organizations"
+  end
+
   def edit_organizer_page
     @organization = Organization.find_by_ucode(params[:ucode])
     if !@organization.present? then
@@ -128,5 +225,78 @@ class AdminController < ApplicationController
     end
 
     render template: "admin/edit_organizer"
+  end
+
+  def show_users_page
+    @users = FesUser.all
+
+    render template: "admin/show_users"
+  end
+
+  def create_users_page
+    render template: "admin/create_users"
+  end
+
+  def create_user
+    if !params["iniad_id"].present? then
+      flash[:error] = "warning:INIAD IDを空欄にすることはできません"
+      redirect_to request.referer
+      return
+    end
+
+    data = FesUser.new
+    data.iniad_id = params["iniad_id"]
+    data.password = SecureRandom.alphanumeric(32)
+    data.email = "#{params["iniad_id"]}@iniad.org"
+    if !params["role"].present? then
+      flash[:error] = "warning:権限は必ず１つ以上設定してください"
+      redirect_to request.referer
+      return
+    end
+
+    data.role = params["role"].split(",")
+    data.save()
+
+    flash[:error] = "success:登録が完了しました"
+    redirect_to "/admin/users"
+  end
+
+  def edit_users_page
+    @user = FesUser.find_by_iniad_id(params[:iniad_id])
+    if !@user.present? then
+      flash[:error] = "danger:該当するユーザーが存在しません"
+    end
+
+    render template: "admin/edit_users"
+  end
+
+  def edit_users
+    data = FesUser.find_by_iniad_id(params["patch_to"])
+    if !data.present? then
+      flash[:error] = "danger:該当するユーザーが存在しません"
+      redirect_to request.referer
+      return
+    end
+
+    if !params["iniad_id"].present? then
+      flash[:error] = "warning:INIAD IDを空欄にすることはできません"
+      redirect_to request.referer
+      return
+    end
+
+    data.iniad_id = params["iniad_id"]
+    data.password = SecureRandom.alphanumeric(32)
+    data.email = "#{params["iniad_id"]}@iniad.org"
+    if !params["role"].present? then
+      flash[:error] = "warning:権限は必ず１つ以上設定してください"
+      redirect_to request.referer
+      return
+    end
+
+    data.role = params["role"].split(",")
+    data.save()
+
+    flash[:error] = "success:登録が完了しました"
+    redirect_to "/admin/users"
   end
 end
