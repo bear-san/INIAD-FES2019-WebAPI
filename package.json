@@ -1,5 +1,7 @@
 {
   "name": "Web",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "@yaireo/tagify": "^2.31.2"
+  }
 }

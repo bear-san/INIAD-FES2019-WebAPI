@@ -7,11 +7,7 @@ class AdminController < ApplicationController
   include Devise::Controllers::SignInOut
 
   def index
-    if signed_in? then
-      render json:current_fes_user
-    else
-      render plain:"not signed in"
-    end
+    redirect_to "/admin/contents"
   end
 
   def auth
@@ -56,6 +52,9 @@ class AdminController < ApplicationController
       redirect_to "/admin"
       return
     end
+
+    user.name = userinfo["name"]
+    user.save()
 
     bypass_sign_in user
     if session[:current_access].present? then
