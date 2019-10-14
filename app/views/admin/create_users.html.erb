@@ -7,7 +7,7 @@
   </div>
   <div class="form-group">
     <label for="role">権限</label>
-    <input class="form-control" id="role" name="role">
+    <textarea id="role" name="role"></textarea>
   </div><a class="btn btn-outline-secondary" href="/admin/users">キャンセル</a>
   <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#confirmModal">
     登録
@@ -33,3 +33,22 @@
     </div>
   </div>
 </form>
+<script>
+    if ($(".tagify").length === 0){
+        var input = document.querySelector('textarea[name=role]'),
+            tagify = new Tagify(input, {
+                enforceWhitelist : true,
+                whitelist        : [
+                    {permission:"Developer",value:"Developer"},
+                    {permission:"Admin",value:"Admin"},
+                    {permission:"FesCommittee",value:"FesCommittee"},
+                    {permission:"OrganizationAdmin",value:"OrganizationAdmin"},
+                    {permission:"StuParticipant",value:"StuParticipant"}
+                ],
+                callbacks        : {
+                    add    : console.log,  // callback when adding a tag
+                    remove : console.log   // callback when removing a tag
+                }
+            });
+    }
+</script>

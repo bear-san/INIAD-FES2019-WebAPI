@@ -176,10 +176,12 @@ class AdminController < ApplicationController
     new_organization = Organization.new
     new_organization.ucode = ucode.ucode
     new_organization.organization_name = params["organization_name"]
-    begin
-      new_organization.members = params["members"].split(",")
-    rescue
-      new_organization.members = []
+    new_organization.members = []
+
+    if params["members"].present? then
+      JSON(params["members"]).each do |member|
+        new_organization.members.append(member["value"])
+      end
     end
 
     new_organization.save()
@@ -205,10 +207,12 @@ class AdminController < ApplicationController
     end
 
     data.organization_name = params["organization_name"]
-    begin
-      data.members = params["members"].split(",")
-    rescue
-      data.members = []
+    data.members = []
+
+    if params["members"].present? then
+      JSON(params["members"]).each do |member|
+        data.members.append(member["value"])
+      end
     end
 
     data.save()
@@ -253,7 +257,12 @@ class AdminController < ApplicationController
       return
     end
 
-    data.role = params["role"].split(",")
+    data.role = []
+
+    JSON(params["role"]).each do|role|
+      data.role.append(role["permission"])
+    end
+
     data.save()
 
     flash[:error] = "success:登録が完了しました"
@@ -291,8 +300,12 @@ class AdminController < ApplicationController
       redirect_to request.referer
       return
     end
+    data.role = []
 
-    data.role = params["role"].split(",")
+    JSON(params["role"]).each do|role|
+      data.role.append(role["permission"])
+    end
+
     data.save()
 
     flash[:error] = "success:登録が完了しました"

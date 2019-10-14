@@ -9,7 +9,7 @@
     </div>
     <div class="form-group">
       <label for="member">メンバー</label>
-      <input class="form-control" id="members" name="members" placeholder="s1f101700000,s1f101800000,s1f101900000" value="<%= @organization.members.join(",") %>">
+      <textarea id="members" name="members" placeholder="s1f101700000,s1f101800000,s1f101900000"></textarea>
     </div>
     <hr>
     <a class="btn btn-outline-secondary" href="/admin/organizations">キャンセル</a>
@@ -45,4 +45,28 @@
             return false;
         }
     });
+</script>
+<script>
+    if ($(".tagify").length === 0){
+        var input = document.querySelector('textarea[name=members]'),
+            tagify = new Tagify(input, {
+                enforceWhitelist : true,
+                whitelist        : [
+                    <% FesUser.all.each do |user| %>
+                    {value:"<%= user.iniad_id %>"},
+                    <% end %>
+                ],
+                callbacks        : {
+                    add    : console.log,  // callback when adding a tag
+                    remove : console.log   // callback when removing a tag
+                }
+            });
+    }
+</script>
+<script>
+  <% members = [] %>
+  <% @organization.members.each do |member| %>
+  <% members.append(member) %>
+  <% end %>
+  tagify.addTags(<%= members.to_json.html_safe %>)
 </script>
