@@ -24,6 +24,11 @@ Rails.application.routes.draw do
       scope :admin do
         post 'reception', to:"visitor#reception"
       end
+
+      scope :health do
+        get 'app',to:"health#app"
+        get 'db',to:"health#db"
+      end
     end
   end
 
