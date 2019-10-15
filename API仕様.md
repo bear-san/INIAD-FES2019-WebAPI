@@ -50,7 +50,13 @@ APIのURLのうち、SchemaとHost Domainは事前にシステム管理者が設
 - `status:String`
 - `description:String(Optional)`
 - `role:Array<String>` -> ユーザーに付与されている権限
-- `member_of:Array<String>` -> ユーザーが所属している団体
+- `member_of:Array<Object>` -> ユーザーが所属している団体
+```
+{
+    "ucode":"団体に割当されたucode",
+    "organization_name":"団体名"
+}
+```
 ## デジタルパンフレット関係機能
 ### 企画一覧API： `GET /api/v1/contents`
 
