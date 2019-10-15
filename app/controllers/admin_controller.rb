@@ -5,12 +5,34 @@ require "devise"
 
 class AdminController < ApplicationController
   include Devise::Controllers::SignInOut
+  before_action :check_sign_in_status, :except => [:auth, :auth_callback]
+  before_action :check_fesadmin_permission, :only => [
+      :index,
+      :show_contents,
+      :create_contents_page,
+      :create_contents,
+      :edit_contents,
+      :update_contents,
+      :show_organizer,
+      :create_organizer_page,
+      :create_organizer,
+      :edit_organizer,
+      :edit_organizer_page
+  ]
+  before_action :check_developer_permission, :only => [
+      :show_users_page,
+      :create_users_page,
+      :create_user,
+      :edit_users_page,
+      :edit_users
+  ]
 
   def index
     redirect_to "/admin/contents"
   end
 
   def auth
+    sign_out
     redirect_to "https://accounts.google.com/o/oauth2/auth?client_id=#{ENV["GOOGLE_OAUTH_CLIENTID"]}&redirect_uri=#{ENV["SERVER_HOST"]}%2Fauth%2Fg%2Fcallback&response_type=code&scope=openid%20email%20profile&hd=iniad.org"
   end
 
@@ -56,7 +78,7 @@ class AdminController < ApplicationController
     user.name = userinfo["name"]
     user.save()
 
-    bypass_sign_in user
+    sign_in user
     if session[:current_access].present? then
       redirect_to session[:current_access]
       return
