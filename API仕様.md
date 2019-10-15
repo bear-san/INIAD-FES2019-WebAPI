@@ -135,6 +135,7 @@ INIAD-FESで実施されている企画を取得する
 **Response Parameter**
 - `status:String`
 - `description:String(Optional)`
+- `user_id:String` -> ユーザーID QRに使用する
 
 ### 来場受付API： `POST /api/v1/visitor/entry/:ucode`
 
