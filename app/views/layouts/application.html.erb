@@ -18,36 +18,40 @@
   <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin-bottom: 10px;">
     <a class="navbar-brand" href="/">INIAD-FES 2019</a>
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          企画管理
-        </a>
-        <div class=" dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/admin/contents/new">新規企画登録</a>
-          <a class="dropdown-item" href="/admin/contents">企画一覧</a>
-        </div>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          組織管理
-        </a>
-        <div class=" dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/admin/organizations/new">新規組織登録</a>
-          <a class="dropdown-item" href="/admin/organizations">組織一覧</a>
-        </div>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          権限管理
-        </a>
-        <div class=" dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/admin/users/new">管理ユーザー作成</a>
-          <a class="dropdown-item" href="/admin/users">管理ユーザー一覧</a>
-        </div>
-      </li>
-    </ul>
-
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            企画管理
+          </a>
+          <div class=" dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/admin/contents/new">新規企画登録</a>
+            <a class="dropdown-item" href="/admin/contents">企画一覧</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            組織管理
+          </a>
+          <div class=" dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/admin/organizations/new">新規組織登録</a>
+            <a class="dropdown-item" href="/admin/organizations">組織一覧</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            権限管理
+          </a>
+          <div class=" dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/admin/users/new">管理ユーザー作成</a>
+            <a class="dropdown-item" href="/admin/users">管理ユーザー一覧</a>
+          </div>
+        </li>
+      </ul>
+    </div>
   </nav>
     <div class="container">
       <% if flash[:error].present? then %>

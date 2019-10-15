@@ -25,11 +25,14 @@ class ApplicationController < ActionController::Base
   end
 
   def check_sign_in_status
-    if !signed_in? then
-      session[:current_access] = request.fullpath
-      redirect_to "/auth/g"
+    if signed_in? then
       return
     end
+
+    puts "not signed_in"
+    session[:current_access] = request.fullpath
+    redirect_to "/auth/g"
+    return
   end
 
   def check_fesadmin_permission

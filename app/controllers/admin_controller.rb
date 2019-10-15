@@ -10,21 +10,14 @@ class AdminController < ApplicationController
       :index,
       :show_contents,
       :create_contents_page,
-      :create_contents,
-      :edit_contents,
-      :update_contents,
       :show_organizer,
       :create_organizer_page,
-      :create_organizer,
-      :edit_organizer,
       :edit_organizer_page
   ]
   before_action :check_developer_permission, :only => [
       :show_users_page,
       :create_users_page,
-      :create_user,
-      :edit_users_page,
-      :edit_users
+      :edit_users_page
   ]
 
   def index
@@ -262,7 +255,7 @@ class AdminController < ApplicationController
     render template: "admin/create_users"
   end
 
-  def create_user
+  def create_users
     if !params["iniad_id"].present? then
       flash[:error] = "warning:INIAD IDを空欄にすることはできません"
       redirect_to request.referer
