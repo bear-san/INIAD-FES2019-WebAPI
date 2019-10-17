@@ -45,7 +45,14 @@ class UserController < ApplicationController
       circle_object = Organization.where("members @> ARRAY[?]::varchar[]",[fes_user.iniad_id])
       circle_list = []
       circle_object.each do |circle|
-        circle_list.append({"ucode" => circle.ucode, "organization_name" => circle.organization_name})
+        contents_object = Content.find_by_organizer(circle.ucode)
+        contents = []
+
+        contents_object.each do|content|
+          contents.append({"ucode" => content.ucode, "title" => content.title})
+        end
+
+        circle_list.append({"ucode" => circle.ucode, "organization_name" => circle.organization_name, "contents" => contents})
       end
     rescue
       render json:{"status" => "error", "description" => "internal server error"},status:500
