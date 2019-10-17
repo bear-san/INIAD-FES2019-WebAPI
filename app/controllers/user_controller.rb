@@ -37,6 +37,11 @@ class UserController < ApplicationController
   def dump_data
     begin
       fes_user = FesUser.where("devices @> ARRAY[?]::varchar[]", [@user.user_id]).first()
+      if !fes_user.present? then
+        render json:{"status" => "success", "role" => @user.role, "member_of" => []}
+        return
+      end
+
       circle_object = Organization.where("members @> ARRAY[?]::varchar[]",[fes_user.iniad_id])
       circle_list = []
       circle_object.each do |circle|
