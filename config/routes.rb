@@ -57,6 +57,7 @@ Rails.application.routes.draw do
   scope :auth do
     get "g",to:"admin#auth"
     get "g/callback",to:"admin#auth_callback"
+    get "circle",to:"admin#app_auth"
   end
 
   match "*path" => "application#not_found", via: :all

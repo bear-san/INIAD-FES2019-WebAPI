@@ -326,4 +326,21 @@ class AdminController < ApplicationController
     flash[:error] = "success:登録が完了しました"
     redirect_to "/admin/users"
   end
+
+  def app_auth
+    target_device = User.find_by_secret(params["api_key"])
+    if !target_device.present? then
+      render plain:"無効なAPIキーです"
+      return
+    end
+    target_user = FesUser.find_by_iniad_id(current_fes_user.iniad_id)
+
+    target_user.devices.append(target_device.user_id)
+
+    target_user.save()
+
+    #TODO:アプリへのリダイレクト
+    render plain:"紐付け完了"
+    return
+  end
 end
