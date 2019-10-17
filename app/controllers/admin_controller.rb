@@ -335,7 +335,13 @@ class AdminController < ApplicationController
     end
     target_user = FesUser.find_by_iniad_id(current_fes_user.iniad_id)
 
-    target_user.devices.append(target_device.user_id)
+    if !target_user.devices.include?(target_device.user_id) then
+      target_user.devices.append(target_device.user_id)
+    end
+
+    if !target_user.role.include?("circle_participant") then
+      target_user.role.append("circle_participant")
+    end
 
     target_user.save()
 
