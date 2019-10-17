@@ -45,7 +45,7 @@ class UserController < ApplicationController
       circle_object = Organization.where("members @> ARRAY[?]::varchar[]",[fes_user.iniad_id])
       circle_list = []
       circle_object.each do |circle|
-        contents_object = Content.find_by_organizer(circle.ucode)
+        contents_object = Content.where(:organizer => circle.ucode)
         contents = []
 
         contents_object.each do|content|
