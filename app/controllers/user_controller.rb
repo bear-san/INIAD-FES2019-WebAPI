@@ -35,6 +35,19 @@ class UserController < ApplicationController
   end
 
   def dump_data
-    
+    begin
+      fes_user = FesUser.where("devices @> ARRAY[?]::varchar[]", [@user.user_id]).first()
+      circle_object = Organization.where("members @> ARRAY[?]::varchar[]",[fes_user.iniad_id])
+      circle_list = []
+      circle_object.each do |circle|
+        circle_list.append({"ucode" => circle.ucode, "organization_name" => circle.organization_name})
+      end
+    rescue
+      render json:{"status" => "error", "description" => "internal server error"},status:500
+      return
+    end
+
+    render json:{"status" => "success", "role" => @user.role, "member_of" => circle_list}
+    return
   end
 end

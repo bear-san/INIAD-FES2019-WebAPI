@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   scope :api do
     scope :v1 do
       scope :user do
+        get '/', to:'user#dump_data'
         post '/new', to:'user#new'
         post '/', to:'user#update_notification_token'
       end
