@@ -344,6 +344,7 @@ class AdminController < ApplicationController
     end
 
     target_user.save()
+    target_device.save()
 
     #TODO:アプリへのリダイレクト
     render plain:"紐付け完了"
