@@ -1,5 +1,6 @@
 class ContentsController < ApplicationController
-  before_action :authentication
+  # before_action :authentication
+  # -> Webサイトからのアクセスを受け入れるため削除
 
   def index
     contents = Content.all
