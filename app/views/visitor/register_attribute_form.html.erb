@@ -1,0 +1,54 @@
+<h3>来場受付前に、以下の設問に回答をお願いいたします</h3>
+<p>この情報は、来年度以降のINIAD-FESの企画などに活用されます</p>
+<p>複数名で来場の場合は、代表の方の情報をご記入ください</p>
+<a href="iniadfes://require-external-browser?action=circle_auth">INIAD-FES関係者はこちらからログイン</a>
+<hr>
+<form method="post">
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+  <%= hidden_field_tag :api_key, params[:api_key] %>
+  <div class="form-group">
+    <label for="age">年代</label>
+    <select id="age" name="age" class="form-control">
+      <option value="1">10代以下</option>
+      <option value="2">20代</option>
+      <option value="3">30代</option>
+      <option value="4">40代</option>
+      <option value="5">50代</option>
+      <option value="6">60代以上</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="gender">性別</label>
+    <select id="gender" name="gender" class="form-control">
+      <option value="m">男性</option>
+      <option value="f">女性</option>
+      <option value="n">その他/回答しない</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="job">職業</label>
+    <select id="job" name="job" class="form-control">
+      <option value="under_elementary">小学生以下</option>
+      <option value="junior_or_high_school">中学生・高校生</option>
+      <option value="university">大学生・大学院生</option>
+      <option value="worker">社会人</option>
+      <option value="other">その他</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="number_of_people">人数</label>
+    <select id="number_of_people" name="number_of_people" class="form-control">
+      <option value="1">1名</option>
+      <option value="2">2名</option>
+      <option value="3">3名</option>
+      <option value="4">4名</option>
+      <option value="5">5名</option>
+      <option value="6">6名</option>
+      <option value="7">7名</option>
+      <option value="8">8名</option>
+      <option value="9">9名</option>
+      <option value="10">10名</option>
+    </select>
+  </div>
+  <input class="btn btn-outline-success" type="submit" value="登録">
+</form>

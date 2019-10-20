@@ -60,5 +60,10 @@ Rails.application.routes.draw do
     get "circle",to:"admin#app_auth"
   end
 
+  scope :visitor do
+    get 'attribute/register',to:"visitor#register_attribute_form"
+    post 'attribute/register',to:"visitor#register_attribute"
+  end
+
   match "*path" => "application#not_found", via: :all
 end

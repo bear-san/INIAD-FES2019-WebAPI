@@ -1,5 +1,5 @@
 class VisitorController < ApplicationController
-  before_action :authentication, :except => [:in_venue_registration]
+  before_action :authentication, :except => [:in_venue_registration, :register_attribute_form, :register_attribute]
   protect_from_forgery :only => :all
 
   def in_venue_registration
@@ -9,6 +9,7 @@ class VisitorController < ApplicationController
 
   def in_app_registration
     # 属性登録（アプリ経由）
+    # MARK:廃止予定
     if @user.role.include?("visitor") then
       render json:{"status" => "error", "description" => "visitor attribute has already registered"},status:409
       return
@@ -35,6 +36,41 @@ class VisitorController < ApplicationController
 
     render json:{"status" => "success", "description" => "register attribute has been successfully", "visitor_code" => @user.user_id}
     return
+  end
+
+  def register_attribute_form
+
+  end
+
+  def register_attribute
+    user = User.find_by_secret(Digest::SHA256.hexdigest(params[:api_key]))
+    if !user.present? then
+      flash[:error] = "danger:無効なAPIキーです"
+      redirect_to request.referer
+      return
+    end
+
+    if VisitorAttribute.find_by_user_id(user.user_id).present? then
+      flash[:error] = "warning:既に属性情報が登録されています"
+      redirect_to "iniadfes://visitor/attribute/register/complete"
+      return
+    end
+
+    new_attribute = VisitorAttribute.new
+    new_attribute.user_id = user.user_id
+    new_attribute.action_history = {
+        "visit" => []
+    }
+    new_attribute.visitor_attribute = {
+        "gender" => params["gender"],
+        "age" => params["age"],
+        "job" => params["job"],
+        "number_of_people" => params["number_of_people"]
+    }
+
+    new_attribute.save()
+
+    redirect_to "iniadfes://visitor/attribute/register/complete"
   end
 
   def reception
