@@ -1,4 +1,6 @@
 require 'devise'
+require 'digest/sha2'
+
 class ApplicationController < ActionController::Base
   include Devise::Controllers::SignInOut
   protect_from_forgery :except => [:not_found]
@@ -6,7 +8,7 @@ class ApplicationController < ActionController::Base
   def authentication
     begin
       token = request.headers["Authorization"]
-      user = User.find_by_secret(/Bearer (.*)/.match(token)[1])
+      user = User.find_by_secret(Digest::SHA256.hexdigest(/Bearer (.*)/.match(token)[1]))
 
       if !user.present? then
         raise()

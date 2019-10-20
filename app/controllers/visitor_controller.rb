@@ -105,7 +105,7 @@ class VisitorController < ApplicationController
       data = VisitorAttribute.find_by_user_id(@user.user_id)
 
       if data.present? then
-        render json:{"status" => "success", "role" => @user.role, "history" => data.action_history, "attribute" => data.visitor_attribute}
+        render json:{"status" => "success","user_id" => @user.user_id , "role" => @user.role, "history" => data.action_history, "attribute" => data.visitor_attribute}
         return
       else
         render json:{"status" => "success", "role" => @user.role, "history" => nil, "attribute" => nil},status:200

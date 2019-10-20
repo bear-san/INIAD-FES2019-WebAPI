@@ -71,9 +71,11 @@ class AdminController < ApplicationController
     user.name = userinfo["name"]
     user.save()
 
+    current_access = session[:current_access]
+
     sign_in user
-    if session[:current_access].present? then
-      redirect_to session[:current_access]
+    if current_access.present? then
+      redirect_to current_access
       return
     else
       redirect_to "/admin"

@@ -1,3 +1,4 @@
+require 'digest/sha2'
 class UserController < ApplicationController
   before_action :authentication, :except => [:new]
   protect_from_forgery :except => [:new,:update_notification_token]
@@ -10,7 +11,8 @@ class UserController < ApplicationController
 
     user = User.new
     user.user_id = SecureRandom.uuid
-    user.secret = SecureRandom.alphanumeric(32)
+    secret = SecureRandom.alphanumeric(32)
+    user.secret = Digest::SHA256.hexdigest(secret)
     user.role = ["app_user"]
     user.device_type = params["device_type"]
 
