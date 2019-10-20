@@ -2,6 +2,7 @@ require "net/http"
 require "open-uri"
 require "base64"
 require "devise"
+require "sha/2"
 
 class AdminController < ApplicationController
   include Devise::Controllers::SignInOut
@@ -330,7 +331,7 @@ class AdminController < ApplicationController
   end
 
   def app_auth
-    target_device = User.find_by_secret(params["api_key"])
+    target_device = User.find_by_secret(Digest::SHA256.hexdigest(params["api_key"]))
     if !target_device.present? then
       render plain:"無効なAPIキーです"
       return
