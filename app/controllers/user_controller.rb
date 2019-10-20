@@ -15,6 +15,7 @@ class UserController < ApplicationController
     user.secret = Digest::SHA256.hexdigest(secret)
     user.role = ["app_user"]
     user.device_type = params["device_type"]
+    user.devices = []
 
     user.save()
 
