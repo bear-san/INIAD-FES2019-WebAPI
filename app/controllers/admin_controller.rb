@@ -2,7 +2,7 @@ require "net/http"
 require "open-uri"
 require "base64"
 require "devise"
-require "sha/2"
+require "digest/sha2"
 
 class AdminController < ApplicationController
   include Devise::Controllers::SignInOut
