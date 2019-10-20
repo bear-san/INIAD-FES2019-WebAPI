@@ -32,7 +32,7 @@ class ApplicationController < ActionController::Base
     end
 
     puts "not signed_in"
-    session[:current_access] = request.fullpath
+    cookies[:current_access] = request.fullpath
     redirect_to "/auth/g"
     return
   end

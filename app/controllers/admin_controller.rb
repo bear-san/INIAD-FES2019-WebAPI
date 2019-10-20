@@ -72,7 +72,7 @@ class AdminController < ApplicationController
     user.name = userinfo["name"]
     user.save()
 
-    current_access = session[:current_access]
+    current_access = cookies[:current_access]
 
     sign_in user
     if current_access.present? then
