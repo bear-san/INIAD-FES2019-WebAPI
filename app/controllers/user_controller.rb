@@ -18,7 +18,7 @@ class UserController < ApplicationController
 
     user.save()
 
-    render json:{"status" => "success", "secret" => user.secret, "role" => user.role}
+    render json:{"status" => "success", "secret" => secret, "role" => user.role}
     return
   end
 
