@@ -56,7 +56,7 @@ class VisitorController < ApplicationController
         user.save()
       end
       flash[:error] = "warning:既に属性情報が登録されています"
-      redirect_to "iniadfes://visitor/attribute/register/complete"
+      redirect_to "iniadfes://open/renew-permission"
       return
     end
 
