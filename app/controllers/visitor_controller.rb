@@ -51,6 +51,10 @@ class VisitorController < ApplicationController
     end
 
     if VisitorAttribute.find_by_user_id(user.user_id).present? then
+      if !user.role.include?("visitor") then
+        user.role.append("visitor")
+        user.save()
+      end
       flash[:error] = "warning:既に属性情報が登録されています"
       redirect_to "iniadfes://visitor/attribute/register/complete"
       return
@@ -69,6 +73,8 @@ class VisitorController < ApplicationController
     }
 
     new_attribute.save()
+    user.role.append("visitor")
+    user.save()
 
     #権限情報を更新するよう指示する
     redirect_to "iniadfes://open/renew-permission"
