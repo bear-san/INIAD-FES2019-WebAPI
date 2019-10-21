@@ -1,7 +1,7 @@
 <h3>来場受付前に、以下の設問に回答をお願いいたします</h3>
 <p>この情報は、来年度以降のINIAD-FESの企画などに活用されます</p>
 <p>複数名で来場の場合は、代表の方の情報をご記入ください</p>
-<a href="iniadfes://require-external-browser?action=circle_auth">INIAD-FES関係者はこちらからログイン</a>
+<a href="iniadfes://require-external-browser?goto=<%= ENV["SERVER_HOST"] %>/auth/circle">INIAD-FES関係者はこちらからログイン</a>
 <hr>
 <form method="post">
   <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
