@@ -70,7 +70,8 @@ class VisitorController < ApplicationController
 
     new_attribute.save()
 
-    redirect_to "iniadfes://visitor/attribute/register/complete"
+    #権限情報を更新するよう指示する
+    redirect_to "iniadfes://open/renew-permission"
   end
 
   def reception
