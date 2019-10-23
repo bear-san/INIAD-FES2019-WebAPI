@@ -63,6 +63,7 @@ Rails.application.routes.draw do
   scope :visitor do
     get 'attribute/register',to:"visitor#register_attribute_form"
     post 'attribute/register',to:"visitor#register_attribute"
+    get 'final-enquete',to:"visitor#final_enquete"
   end
 
   match "*path" => "application#not_found", via: :all
