@@ -1,5 +1,5 @@
 class VisitorController < ApplicationController
-  before_action :authentication, :except => [:in_venue_registration, :register_attribute_form, :register_attribute]
+  before_action :authentication, :except => [:in_venue_registration, :register_attribute_form, :register_attribute, :final_enquete]
   protect_from_forgery :only => :all
 
   def in_venue_registration
@@ -178,5 +178,9 @@ class VisitorController < ApplicationController
       render json:{"status" => "error", "description" => "permission denied"},status:403
       return
     end
+  end
+
+  def final_enquete
+
   end
 end
