@@ -129,14 +129,14 @@ class VisitorController < ApplicationController
       return
     end
 
-    if !(@user.role & ["developer","system_admin","fes_admin","fes_committee"]).present? then
+    if !organizer.members.include?(request_user.iniad_id) then
+      render json:{"status" => "error", "description" => "permission denied"},status:403
+      return
+    elsif !(@user.role & ["developer","system_admin","fes_admin","fes_committee"]).present? then
       render json:{"status" => "error", "description" => "permission denied"},status:403
       return
     end
 
-    if !organizer.members.include?(request_user.iniad_id) then
-      render json:{"status" => "error", "description" => "permission denied"},status:403
-      return
     end
 
     visitor_attribute = VisitorAttribute.find_by_user_id(params["user_id"])
