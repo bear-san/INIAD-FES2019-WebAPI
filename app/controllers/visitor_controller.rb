@@ -129,27 +129,24 @@ class VisitorController < ApplicationController
       return
     end
 
-    if !organizer.members.include?(request_user.iniad_id) then
+    if organizer.members.include?(request_user.iniad_id) or (@user.role & ["developer","system_admin","fes_admin","fes_committee"]).present? then
+      visitor_attribute = VisitorAttribute.find_by_user_id(params["user_id"])
+      if !visitor_attribute.present? then
+        render json:{"status" => "error", "description" => "Specified visitor isn't register attributes"},status:400
+        return
+      end
+
+      timestamp = Time.now
+      visitor_attribute.action_history["visit"].append({"ucode" => content.ucode, "timestamp" => timestamp})
+
+      visitor_attribute.save()
+
+      render json:{"status" => "success", "description" => "visitor entry process has been successfully", "timestamp" => timestamp}
+      return
+    else
       render json:{"status" => "error", "description" => "permission denied", "reason" => "Specified User isn't register to organization"},status:403
       return
-    elsif !(@user.role & ["developer","system_admin","fes_admin","fes_committee"]).present? then
-      render json:{"status" => "error", "description" => "permission denied", "reason" => "permission denied"},status:403
-      return
     end
-
-    visitor_attribute = VisitorAttribute.find_by_user_id(params["user_id"])
-    if !visitor_attribute.present? then
-      render json:{"status" => "error", "description" => "Specified visitor isn't register attributes"},status:400
-      return
-    end
-
-    timestamp = Time.now
-    visitor_attribute.action_history["visit"].append({"ucode" => content.ucode, "timestamp" => timestamp})
-
-    visitor_attribute.save()
-
-    render json:{"status" => "success", "description" => "visitor entry process has been successfully", "timestamp" => timestamp}
-    return
   end
 
   def dump_data
