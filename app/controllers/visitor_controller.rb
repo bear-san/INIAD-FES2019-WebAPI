@@ -137,8 +137,6 @@ class VisitorController < ApplicationController
       return
     end
 
-    end
-
     visitor_attribute = VisitorAttribute.find_by_user_id(params["user_id"])
     if !visitor_attribute.present? then
       render json:{"status" => "error", "description" => "Specified visitor isn't register attributes"},status:400
