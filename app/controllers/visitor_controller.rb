@@ -125,15 +125,15 @@ class VisitorController < ApplicationController
     organizer = Organization.find_by_ucode(content.organizer)
     request_user = FesUser.where("devices @> ARRAY[?]::varchar[]",[@user.user_id]).first()
     if !request_user.present? then
-      render json:{"status" => "error", "description" => "permission denied"},status:403
+      render json:{"status" => "error", "description" => "permission denied", "reason" => "Specified User isn't register to INIAD FES System"},status:403
       return
     end
 
     if !organizer.members.include?(request_user.iniad_id) then
-      render json:{"status" => "error", "description" => "permission denied"},status:403
+      render json:{"status" => "error", "description" => "permission denied", "reason" => "Specified User isn't register to organization"},status:403
       return
     elsif !(@user.role & ["developer","system_admin","fes_admin","fes_committee"]).present? then
-      render json:{"status" => "error", "description" => "permission denied"},status:403
+      render json:{"status" => "error", "description" => "permission denied", "reason" => "permission denied"},status:403
       return
     end
 
