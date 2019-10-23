@@ -120,6 +120,7 @@ class AdminController < ApplicationController
 
     content.place = params["place"]
     content.description = params["description"]
+    content.image_url = params["image-url"]
     content.ucode = ucode.ucode #未割り当てucodeのうち、適当なものを割り当てる
 
     content.save()
@@ -168,6 +169,7 @@ class AdminController < ApplicationController
     end
     content.place = params["place"]
     content.description = params["description"]
+    content.image_url = params["image-url"]
 
     content.save()
     flash[:error] = "success:更新が完了しました"

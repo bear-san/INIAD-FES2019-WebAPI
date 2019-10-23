@@ -53,7 +53,8 @@ class ContentsController < ApplicationController
                           "room_name" => place.room_num,
                           "door_name" => place.door_name,
                           "room_color" => place.room_color
-                      }
+                      },
+                      "image" => content.image_url
                   })
     end
 
@@ -83,7 +84,8 @@ class ContentsController < ApplicationController
             "room_name" => place.room_num,
             "door_name" => place.door_name,
             "room_color" => place.room_color
-        }
+        },
+        "image" => content.image_url
     }
 
     render json:{"status" => "success", "object" => data}
