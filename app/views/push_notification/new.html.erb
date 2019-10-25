@@ -1,0 +1,44 @@
+<h2>通知の発行</h2>
+<form action="<%= push_notification_index_path %>" id="notification-form" method="post">
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+  <div class="form-group">
+    <label for="notification-title">タイトル</label>
+    <input class="form-control" id="notification-title" name="title" placeholder="タイトル">
+  </div>
+  <div class="form-group">
+    <label for="notification-description">内容</label>
+    <textarea class="form-control" id="notification-description" name="message" placeholder="内容" rows="10"></textarea>
+  </div>
+  <a class="btn btn-outline-secondary" href="/admin/contents">キャンセル</a>
+  <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#confirmModal">
+    登録
+  </button>
+  <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="comfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="comfirmModalLabel">確認</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>「登録」をクリックすると、直ちに通知が発行されます</p>
+          <p>内容について事務課などから確認が必要な場合は、登録前に受けてください</p>
+          <p>登録しますか？</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">キャンセル</button>
+          <input type="button" class="btn btn-outline-primary" onclick="$('#notification-form').submit();" value="登録">
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<script>
+    $("input[name = title]").keypress(function (e) {
+        if (e.which === 13) {
+            return false;
+        }
+    });
+</script>
