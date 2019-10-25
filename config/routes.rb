@@ -30,6 +30,8 @@ Rails.application.routes.draw do
         get 'app',to:"health#app"
         get 'db',to:"health#db"
       end
+
+      get :notifications, to:"push_notification#dump"
     end
   end
 
@@ -52,6 +54,8 @@ Rails.application.routes.draw do
     post 'users/new',to:"admin#create_users"
     get 'users/:iniad_id/edit',to:"admin#edit_users_page"
     post 'users/:iniad_id/edit',to:"admin#edit_users"
+
+    resources :push_notification, :except => [:update,:destroy]
   end
 
   scope :auth do

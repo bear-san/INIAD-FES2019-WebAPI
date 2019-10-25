@@ -51,6 +51,15 @@
               <a class="dropdown-item" href="/admin/users">管理ユーザー一覧</a>
             </div>
           </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              通知管理
+            </a>
+            <div class=" dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="<%= new_push_notification_path %>">通知発行</a>
+              <a class="dropdown-item" href="<%= push_notification_index_path %>">通知一覧</a>
+            </div>
+          </li>
         </ul>
       </div>
     </nav>
