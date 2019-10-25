@@ -16,7 +16,7 @@
   </head>
 
   <body>
-  <% if params[:controller] != "visitor" then %>
+  <% if params[:controller] != "visitor" and params[:controller] != "meta_information" then %>
     <nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin-bottom: 10px;">
       <a class="navbar-brand" href="/">INIAD-FES 2019</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

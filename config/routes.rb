@@ -70,5 +70,8 @@ Rails.application.routes.draw do
     get 'final-enquete',to:"visitor#final_enquete"
   end
 
+  get 'manual', to:"meta_information#manual"
+  get 'privacy', to:"meta_information#privacy"
+
   match "*path" => "application#not_found", via: :all
 end
