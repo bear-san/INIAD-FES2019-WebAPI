@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(version: 2019_10_25_204026) do
   create_table "push_notifications", force: :cascade do |t|
     t.string "title", default: "", null: false
     t.string "message", default: "", null: false
+    t.string "target", default: "all", null: false
     t.datetime "issued_time"
   end
 

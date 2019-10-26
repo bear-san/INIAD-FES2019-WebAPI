@@ -4,12 +4,14 @@
     <td scope="row">ID</td>
     <td>題名</td>
     <td>本文</td>
+    <td>配信対象</td>
   </tr>
   <% @notifications.each do|notification| %>
     <tr>
       <td scope="row"><%= notification.id %></td>
       <td><%= notification.title %></td>
       <td><%= notification.message %></td>
+      <td><%= notification.target %></td>
     </tr>
   <% end %>
 </table>

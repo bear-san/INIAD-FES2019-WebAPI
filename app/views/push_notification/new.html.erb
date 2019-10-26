@@ -9,6 +9,14 @@
     <label for="notification-description">内容</label>
     <textarea class="form-control" id="notification-description" name="message" placeholder="内容" rows="10"></textarea>
   </div>
+  <div class="form-group">
+    <label for="notification-deliver-target">配信対象</label>
+    <select class="form-control" id="notification-deliver-target" name="target">
+      <option value="all">全て</option>
+      <option value="student">INIAD-FES関係者（参加団体・実行委員会）</option>
+      <option value="visitor">来場者</option>
+    </select>
+  </div>
   <a class="btn btn-outline-secondary" href="/admin/contents">キャンセル</a>
   <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#confirmModal">
     登録
