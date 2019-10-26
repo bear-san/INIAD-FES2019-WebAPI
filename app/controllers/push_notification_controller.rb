@@ -85,7 +85,6 @@ class PushNotificationController < ApplicationController
     uri = URI.parse(url)
 
     request = Net::HTTP::Post.new(uri.path)
-    request["Content-type"] = "application/json"
     request.set_form_data({
         "notifications" => [
             {
@@ -100,7 +99,7 @@ class PushNotificationController < ApplicationController
                 "message" => "#{new_notification.title}\n#{new_notification.message}"
             }
         ]
-                          })
+                          }.to_json)
     response = Net::HTTP.new(uri.host,uri.port).start do|http|
       http.request(request)
     end
