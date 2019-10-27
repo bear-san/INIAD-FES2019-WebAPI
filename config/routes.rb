@@ -72,6 +72,7 @@ Rails.application.routes.draw do
 
   get 'manual', to:"meta_information#manual"
   get 'privacy', to:"meta_information#privacy"
+  get 'support',to:"meta_information#support"
 
   match "*path" => "application#not_found", via: :all
 end
