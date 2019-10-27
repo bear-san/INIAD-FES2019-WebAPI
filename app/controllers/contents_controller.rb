@@ -3,6 +3,7 @@ class ContentsController < ApplicationController
   # -> Webサイトからのアクセスを受け入れるため削除
 
   def index
+    response.headers["Access-Control-Allow-Origin"] = "*"
     contents = Content.all
 
     if params["room_num"].present? then
@@ -62,6 +63,7 @@ class ContentsController < ApplicationController
   end
 
   def show
+    response.headers["Access-Control-Allow-Origin"] = "*"
     if !params["ucode"].present? then
       render json:{"status" => "error", "description" => "required parameter missing"},status:400
       return
