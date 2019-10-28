@@ -92,4 +92,16 @@ class ContentsController < ApplicationController
 
     render json:{"status" => "success", "object" => data}
   end
+
+  def floor_images
+    images = FloorImage.all.order(:floor)
+
+    image_response = []
+    images.each do |image|
+      image_response.append({"floor" => image.floor, "image_url" => image.image_url})
+    end
+
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    render json:{"status" => "success", "images" => image_response},status:200
+  end
 end
