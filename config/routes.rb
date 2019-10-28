@@ -34,6 +34,10 @@ Rails.application.routes.draw do
       get "map-images",to:"contents#floor_images"
 
       get :notifications, to:"push_notification#dump"
+
+      scope :web do
+        get 'notifications',to:"push_notification#public"
+      end
     end
   end
 

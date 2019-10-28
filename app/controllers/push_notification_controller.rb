@@ -2,7 +2,7 @@ require 'devise'
 require 'net/http'
 require 'json'
 class PushNotificationController < ApplicationController
-  before_action :check_sign_in_status, :except => [:dump]
+  before_action :check_sign_in_status, :except => [:dump,:public]
   before_action :authentication, :only => [:dump]
 
   def index
@@ -110,5 +110,9 @@ class PushNotificationController < ApplicationController
 
   def dump
     render json:{"status" => "success", "objects" => PushNotification.all}
+  end
+
+  def public
+    render json:{"status" => "success", "objects" => PushNotification.where(:target => "all").or(PushNotification.where(:target => "visitor"))}
   end
 end
