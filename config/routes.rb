@@ -31,6 +31,8 @@ Rails.application.routes.draw do
         get 'db',to:"health#db"
       end
 
+      get "map-images",to:"contents#floor_images"
+
       get :notifications, to:"push_notification#dump"
     end
   end
