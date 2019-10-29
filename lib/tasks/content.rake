@@ -22,15 +22,13 @@ namespace :content do
       else
         new_content.ucode = content["ucode"]
 
-        new_content.ucode.each do|ucode|
-          target_ucode_data = Ucode.find_by_ucode(ucode)
-          if !target_ucode_data.present? then
-            next
-          end
-
-          target_ucode_data.allocated = true
-          target_ucode_data.save()
+        target_ucode_data = Ucode.find_by_ucode(new_content.ucode)
+        if !target_ucode_data.present? then
+          next
         end
+
+        target_ucode_data.allocated = true
+        target_ucode_data.save()
       end
       new_content.organizer = content["organizer"]
       new_content.place = content["place"]

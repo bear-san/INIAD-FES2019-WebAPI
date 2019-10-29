@@ -22,15 +22,13 @@ namespace :organization do
       else
         organization.ucode = org["ucode"]
 
-        organization.ucode.each do|ucode|
-          target_ucode_data = Ucode.find_by_ucode(ucode)
-          if !target_ucode_data.present? then
-            next
-          end
-
-          target_ucode_data.allocated = true
-          target_ucode_data.save()
+        target_ucode_data = Ucode.find_by_ucode(organization.ucode)
+        if !target_ucode_data.present? then
+          next
         end
+
+        target_ucode_data.allocated = true
+        target_ucode_data.save()
       end
       organization.members = org["members"]
       organization.organization_name = org["organization_name"]
