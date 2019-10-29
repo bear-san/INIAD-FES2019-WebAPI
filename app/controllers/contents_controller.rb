@@ -59,6 +59,10 @@ class ContentsController < ApplicationController
                   })
     end
 
+    data.sort! do|a,b|
+      a["place"]["room_name"] <=> b["place"]["room_name"]
+    end
+
     render json:{"status" => "success", "objects" => data}
   end
 
