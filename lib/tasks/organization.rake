@@ -13,7 +13,7 @@ namespace :organization do
     Organization.all.destroy_all
     dict.each do|org|
       organization = Organization.new
-      if !org["ucode"].present? or org["ucode"].count == 0 then
+      if !org["ucode"].present? or org["ucode"].count != 0 then
         allocate_ucode = Ucode.find_by_allocated(false)
         allocate_ucode.allocated = true
         allocate_ucode.save()

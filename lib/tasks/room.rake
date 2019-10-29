@@ -14,7 +14,7 @@ namespace :room do
     dict.each do|room|
       new_room = Room.new
       new_room.room_num = room["room_num"]
-      if !room["ucode"].present? or room["ucode"].count == 0 then
+      if !room["ucode"].present? or room["ucode"].count != 0 then
         allocate_ucode = Ucode.find_by_allocated(false)
         allocate_ucode.allocated = true
         allocate_ucode.save()
