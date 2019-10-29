@@ -13,11 +13,31 @@ namespace :content do
     Content.all.destroy_all
     dict.each do|content|
       new_content = Content.new
-      new_content.ucode = content["ucode"]
+      if !content["ucode"].present? or content["ucode"].count == 0 then
+        allocate_ucode = Ucode.find_by_allocated(false)
+        allocate_ucode.allocated = true
+        allocate_ucode.save()
+
+        new_content.ucode = [allocate_ucode.ucode]
+      else
+        new_content.ucode = room["ucode"]
+
+        new_content.ucode.each do|ucode|
+          target_ucode_data = Ucode.find_by_ucode(ucode)
+          if !target_ucode_data.present? then
+            next
+          end
+
+          target_ucode_data.allocated = true
+          target_ucode_data.save()
+        end
+      end
       new_content.organizer = content["organizer"]
       new_content.place = content["place"]
       new_content.description = content["description"]
       new_content.title = content["title"]
+
+      puts "add #{content["title"]}"
       new_content.save()
     end
   end

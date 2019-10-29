@@ -25,6 +25,7 @@ namespace :ucode do
         new_ucode.allocated = false
       end
 
+      puts "add #{ucode["ucode"]}"
       new_ucode.save()
     end
   end

@@ -13,10 +13,29 @@ namespace :organization do
     Organization.all.destroy_all
     dict.each do|org|
       organization = Organization.new
-      organization.ucode = org["ucode"]
+      if !org["ucode"].present? or org["ucode"].count == 0 then
+        allocate_ucode = Ucode.find_by_allocated(false)
+        allocate_ucode.allocated = true
+        allocate_ucode.save()
+
+        organization.ucode = [allocate_ucode.ucode]
+      else
+        organization.ucode = room["ucode"]
+
+        organization.ucode.each do|ucode|
+          target_ucode_data = Ucode.find_by_ucode(ucode)
+          if !target_ucode_data.present? then
+            next
+          end
+
+          target_ucode_data.allocated = true
+          target_ucode_data.save()
+        end
+      end
       organization.members = org["members"]
       organization.organization_name = org["organization_name"]
 
+      puts "add #{org["organization_name"]}"
       organization.save()
     end
   end

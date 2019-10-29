@@ -14,12 +14,31 @@ namespace :room do
     dict.each do|room|
       new_room = Room.new
       new_room.room_num = room["room_num"]
-      new_room.ucode = room["ucode"]
+      if !room["ucode"].present? or room["ucode"].count == 0 then
+        allocate_ucode = Ucode.find_by_allocated(false)
+        allocate_ucode.allocated = true
+        allocate_ucode.save()
+
+        new_room.ucode = [allocate_ucode.ucode]
+      else
+        new_room.ucode = room["ucode"]
+
+        new_room.ucode.each do|ucode|
+          target_ucode_data = Ucode.find_by_ucode(ucode)
+          if !target_ucode_data.present? then
+            next
+          end
+
+          target_ucode_data.allocated = true
+          target_ucode_data.save()
+        end
+      end
       new_room.related_rooms = room["related_rooms"]
       new_room.floor = room["floor"]
       new_room.room_color = room["room_color"]
       new_room.door_name = room["door_name"]
 
+      puts "add #{new_room["room_num"]}"
       new_room.save()
     end
   end
