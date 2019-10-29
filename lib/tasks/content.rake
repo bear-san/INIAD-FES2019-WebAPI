@@ -13,7 +13,7 @@ namespace :content do
     Content.all.destroy_all
     dict.each do|content|
       new_content = Content.new
-      if !content["ucode"].present? or content["ucode"].count != 0 then
+      if !content["ucode"].present? or content["ucode"].count == 0 then
         allocate_ucode = Ucode.find_by_allocated(false)
         allocate_ucode.allocated = true
         allocate_ucode.save()
