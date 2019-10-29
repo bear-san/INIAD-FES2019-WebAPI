@@ -20,7 +20,7 @@ namespace :organization do
 
         organization.ucode = [allocate_ucode.ucode]
       else
-        organization.ucode = room["ucode"]
+        organization.ucode = org["ucode"]
 
         organization.ucode.each do|ucode|
           target_ucode_data = Ucode.find_by_ucode(ucode)
