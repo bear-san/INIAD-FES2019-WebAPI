@@ -20,7 +20,7 @@ namespace :content do
 
         new_content.ucode = [allocate_ucode.ucode]
       else
-        new_content.ucode = room["ucode"]
+        new_content.ucode = content["ucode"]
 
         new_content.ucode.each do|ucode|
           target_ucode_data = Ucode.find_by_ucode(ucode)
