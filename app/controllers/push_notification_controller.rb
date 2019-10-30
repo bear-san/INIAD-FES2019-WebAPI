@@ -109,7 +109,12 @@ class PushNotificationController < ApplicationController
   end
 
   def dump
-    render json:{"status" => "success", "objects" => PushNotification.all}
+
+    if !@user.role.include?("circle_participant") and !@user.role.include?("fes_committee") then
+      render json:{"status" => "success", "objects" => PushNotification.where(:target => "all").or(PushNotification.where(:target => "visitor"))}
+    else
+      render json:{"status" => "success", "objects" => PushNotification.all}
+    end
   end
 
   def public
