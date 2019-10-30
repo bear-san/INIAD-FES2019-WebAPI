@@ -88,13 +88,13 @@ class PushNotificationController < ApplicationController
     request.body = {
         "notifications" => [
             {
-                "token" => notification_devices["iOS"],
+                "token" => notification_devices["iOS"].uniq,
                 "platform" => 1,
                 "title" => new_notification.title,
                 "message" => new_notification.message,
             },
             {
-                "token" => notification_devices["Android"],
+                "token" => notification_devices["Android"].uniq,
                 "platform" => 2,
                 "message" => "#{new_notification.title}\n#{new_notification.message}"
             }
