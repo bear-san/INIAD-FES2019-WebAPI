@@ -54,8 +54,7 @@ class AdminController < ApplicationController
     response_json_object = JSON(response.body)
     id_token = JSON(Base64.decode64(response_json_object["id_token"].split(".")[1]))
     if id_token["hd"] != "iniad.org" then
-      flash[:error] = "danger:システムアクセス権がありません"
-      redirect_to "/admin"
+      render plain:"システムアクセス権がありません。"
       return
     end
 
@@ -64,8 +63,7 @@ class AdminController < ApplicationController
 
     user = FesUser.find_by_iniad_id(userinfo["email"].split("@")[0])
     if !user.present? then
-      flash[:error] = "danger:システムアクセス権がありません"
-      redirect_to "/admin"
+      render plain:"システムアクセス権がありません。"
       return
     end
 
@@ -73,7 +71,7 @@ class AdminController < ApplicationController
     user.save()
 
     current_access = cookies[:current_access]
-    #cookies.delete(:current_access)
+    cookies.delete(:current_access)
     sign_in user
     if current_access.present? then
       redirect_to current_access
