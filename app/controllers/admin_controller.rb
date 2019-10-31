@@ -73,7 +73,7 @@ class AdminController < ApplicationController
     user.save()
 
     current_access = cookies[:current_access]
-    cookies.delete(:current_access)
+    #cookies.delete(:current_access)
     sign_in user
     if current_access.present? then
       redirect_to current_access
