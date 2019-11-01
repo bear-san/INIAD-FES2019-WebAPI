@@ -118,6 +118,7 @@ class PushNotificationController < ApplicationController
   end
 
   def public
+    response.headers["Access-Control-Allow-Origin"] = "*"
     render json:{"status" => "success", "objects" => PushNotification.where(:target => "all").or(PushNotification.where(:target => "visitor"))}
   end
 end
