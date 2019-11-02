@@ -89,8 +89,8 @@ class VisitorController < ApplicationController
 
     begin
       user = User.find_by_user_id(params["user_id"])
-
-      if !VisitorAttribute.find_by_user_id(user.user_id).present? then
+      visitor_attribute = VisitorAttribute.find_by_user_id(user.user_id)
+      if !visitor_attribute.present? then
         render json:{"status" => "error", "description" => "Specified user isn't register user attributes."},status:400
         return
       end
@@ -101,8 +101,10 @@ class VisitorController < ApplicationController
 
 
     user.is_visited = true
-    user.role.append("visitor")
+    user.role.append("visited_participant")
+    visitor_attribute.visited_at.append(Time.now.in_time_zone("Tokyo").strftime("%Y-%m-%d"))
     user.save()
+    visitor_attribute.save()
 
     render json:{"status" => "success", "description" => "visitor reception has been successfull, welcome to INIAD-FES!"},status:200
     return
