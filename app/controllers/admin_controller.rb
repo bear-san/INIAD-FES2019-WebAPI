@@ -342,7 +342,15 @@ class AdminController < ApplicationController
       target_user.devices.append(target_device.user_id)
     end
 
-    if !target_device.role.include?("circle_participant") then
+    if target_user.role.include?("Developer") and !target_device.role.include?("developer") then
+      target_device.role.append("developer")
+    end
+
+    if target_user.role.include?("FesCommittee") and !target_device.role.include?("fes_admin") then
+      target_device.role.append("fes_admin")
+    end
+
+    if target_user.role.include?("StuParticipant") and !target_device.role.include?("circle_participant") then
       target_device.role.append("circle_participant")
     end
 
