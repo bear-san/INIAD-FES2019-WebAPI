@@ -102,7 +102,12 @@ class VisitorController < ApplicationController
 
     user.is_visited = true
     user.role.append("visited_participant")
-    visitor_attribute.visited_at.append(Time.now.in_time_zone("Tokyo").strftime("%Y-%m-%d"))
+
+    date_stamp = Time.now.in_time_zone("Tokyo").strftime("%Y-%m-%d")
+    if !visitor_attribute.visited_at.include?(date_stamp) then
+      visitor_attribute.visited_at.append(date_stamp)
+    end
+
     user.save()
     visitor_attribute.save()
 
