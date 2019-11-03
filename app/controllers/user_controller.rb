@@ -44,7 +44,7 @@ class UserController < ApplicationController
         return
       end
 
-      if @user.role.include?("developer") then
+      if fes_user.role.include?("Developer") or fes_user.role.include?("FesComittee") then
         circle_object = Organization.all
       else
         circle_object = Organization.where("members @> ARRAY[?]::varchar[]",[fes_user.iniad_id])
