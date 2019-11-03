@@ -44,7 +44,11 @@ class UserController < ApplicationController
         return
       end
 
-      circle_object = Organization.where("members @> ARRAY[?]::varchar[]",[fes_user.iniad_id])
+      if @user.role.include?("developer") then
+        circle_object = Organization.all
+      else
+        circle_object = Organization.where("members @> ARRAY[?]::varchar[]",[fes_user.iniad_id])
+      end
       circle_list = []
       circle_object.each do |circle|
         contents_object = Content.where(:organizer => circle.ucode)

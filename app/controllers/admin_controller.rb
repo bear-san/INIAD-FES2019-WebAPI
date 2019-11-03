@@ -350,7 +350,7 @@ class AdminController < ApplicationController
       target_device.role.append("fes_admin")
     end
 
-    if target_user.role.include?("StuParticipant") and !target_device.role.include?("circle_participant") then
+    if !target_device.role.include?("circle_participant") then
       target_device.role.append("circle_participant")
     end
 
