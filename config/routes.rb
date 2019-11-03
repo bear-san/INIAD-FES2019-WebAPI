@@ -74,6 +74,7 @@ Rails.application.routes.draw do
     get 'attribute/register',to:"visitor#register_attribute_form"
     post 'attribute/register',to:"visitor#register_attribute"
     get 'final-enquete',to:"visitor#final_enquete"
+    post 'final-enquete',to:"visitor#new_final_enquete"
   end
 
   get 'manual', to:"meta_information#manual"

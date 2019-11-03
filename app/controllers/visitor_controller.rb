@@ -1,5 +1,5 @@
 class VisitorController < ApplicationController
-  before_action :authentication, :except => [:in_venue_registration, :register_attribute_form, :register_attribute, :final_enquete]
+  before_action :authentication, :except => [:in_venue_registration, :register_attribute_form, :register_attribute, :final_enquete, :new_final_enquete]
   protect_from_forgery :only => :all
 
   def in_venue_registration
@@ -189,5 +189,19 @@ class VisitorController < ApplicationController
 
   def final_enquete
 
+  end
+
+  def new_final_enquete
+    attribute = VisitorAttribute.find_by_user_id(params[:user_id])
+    attribute.enquete = {
+        "satisfaction_level" => params["satisfaction_level"],
+        "satisfaction_reason" => params["satisfaction_reason"],
+        "best_content" => params["best_content"],
+        "next_year" => params["next_year"]
+    }
+
+    attribute.save()
+
+    redirect_to "/visitor/final-enquete?user_id=#{params[:user_id]}"
   end
 end

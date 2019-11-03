@@ -1,1 +1,60 @@
-<h1>Final En quete</h1>
+<h1>アンケート</h1>
+<p>INIAD-FESへのご来場ありがとうございました。</p>
+<p>最後に、アンケートへのご協力をお願いいたします。</p>
+<hr>
+<% attribute = VisitorAttribute.find_by_user_id(params[:user_id]) %>
+<% if attribute.present? and !attribute.enquete.present? then %>
+  <form method="post">
+    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+    <%= hidden_field_tag :user_id, params[:user_id] %>
+    <div class="form-group">
+      <label for="satisfaction_level">INIAD-FES 2019にはご満足頂けましたか？</label>
+      <select class="form-control" id="satisfaction_level" name="satisfaction_level">
+        <option value="100">非常に満足</option>
+        <option value="80">満足</option>
+        <option value="60">どちらかと言えば満足</option>
+        <option value="40">どちらかと言えば不満</option>
+        <option value="20">不満</option>
+        <option value="0">非常に不満</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="satisfaction_reason">ご満足頂けた/ご満足頂けなかった一番の理由をお聞かせください</label>
+      <select class="form-control" id="satisfaction_reason" name="satisfaction_reason">
+        <option value="1">企画の数・内容が充実していた/不十分だった</option>
+        <option value="2">案内がわかりやすかった/わかりづらかった</option>
+        <option value="3">（飲食企画の）味・品質が十分だった/不十分だった</option>
+        <option value="4">キャンパス内が清潔だった/そうでなかった</option>
+        <option value="5">スタッフの応対が良かった/良くなかった</option>
+        <option value="6">キャンパス内が清潔だった/そうでなかった</option>
+        <option value="7">その他</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="best_content">以下は、訪れた記録がある企画です。一番面白かった/楽しかった企画をお選びください</label>
+      <select class="form-control" id="best_content" name="best_content">
+        <% attribute.action_history["visit"].each do|visit| %>
+          <% content = Content.find_by_ucode(visit["ucode"]) %>
+          <option value="<%= visit["ucode"] %>"><%= content.title %></option>
+        <% end %>
+        <option value="other">その他</option>
+      </select>
+      <div class="form-group">
+        <label for="next_year">来年度以降のINIAD-FESも来たいと思いますか？</label>
+        <select class="form-control" id="next_year" name="next_year">
+          <option value="100">是非来たい</option>
+          <option value="80">まぁまぁ来たい</option>
+          <option value="60">どちらかと言えば来たい</option>
+          <option value="40">どちらかと言えば来たくない</option>
+          <option value="20">来たくない</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn btn-outline-success" onclick="submit();">送信</button>
+  </form>
+<% elsif attribute.enquete.present? then %>
+  <div class="alert alert-success">ご来場ありがとうございました。
+    既にアンケートにご回答いただいています。</div>
+<% else %>
+  <div class="alert alert-danger">該当する来場情報がありません</div>
+<% end %>
