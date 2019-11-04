@@ -369,8 +369,14 @@ class AdminController < ApplicationController
 
   def show_visitors
     @visitors = VisitorAttribute.all.order(:id)
+    count1103 = 0
     count1104 = 0
 
+    @visitors.where("visited_at @> ARRAY[?]::varchar[]",["2019-11-03"]).each do|visitor|
+      if visitor.action_history["visit"] != [] and visitor.visitor_attribute["number_of_people"] != "null" then
+        count1104 += visitor.visitor_attribute["number_of_people"].to_i
+      end
+    end
     @visitors.where("visited_at @> ARRAY[?]::varchar[]",["2019-11-04"]).each do|visitor|
       if visitor.visitor_attribute["number_of_people"] != "null" then
         count1104 += visitor.visitor_attribute["number_of_people"].to_i
@@ -378,7 +384,7 @@ class AdminController < ApplicationController
     end
 
     @counts = {
-        "2019-11-03" => VisitorAttribute.where("visited_at @> ARRAY[?]::varchar[]",["2019-11-03"]).count*3,
+        "2019-11-03" => count1103,
         "2019-11-04" => count1104
     }
 
