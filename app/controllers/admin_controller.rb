@@ -372,9 +372,13 @@ class AdminController < ApplicationController
     count1103 = 0
     count1104 = 0
 
+    pair_count1103 = 0
+    pair_count1104 = 0
+
     @visitors.where("visited_at @> ARRAY[?]::varchar[]",["2019-11-03"]).each do|visitor|
       if visitor.action_history["visit"] != []  then
         count1103 += visitor.visitor_attribute["number_of_people"].to_i
+        pair_count1103 += 1
       end
     end
 
@@ -383,12 +387,13 @@ class AdminController < ApplicationController
     @visitors.where("visited_at @> ARRAY[?]::varchar[]",["2019-11-04"]).each do|visitor|
       if visitor.visitor_attribute["number_of_people"] != "null" then
         count1104 += visitor.visitor_attribute["number_of_people"].to_i
+        pair_count1104
       end
     end
 
     @counts = {
-        "2019-11-03" => count1103,
-        "2019-11-04" => count1104
+        "2019-11-03" => [count1103,pair_count1103],
+        "2019-11-04" => [count1104,pair_count1104]
     }
 
     if params["date"].present?
