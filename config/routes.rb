@@ -61,7 +61,7 @@ Rails.application.routes.draw do
     get 'users/:iniad_id/edit',to:"admin#edit_users_page"
     post 'users/:iniad_id/edit',to:"admin#edit_users"
 
-    get 'sign_out',to:"admin#sign_out"
+    get 'sign_out',to:"admin#sign_out_action"
 
     resources :push_notification, :except => [:update,:destroy]
   end
