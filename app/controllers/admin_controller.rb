@@ -371,7 +371,7 @@ class AdminController < ApplicationController
     @visitors = VisitorAttribute.all.order(:id)
     count1104 = 0
 
-    @visitors.each do|visitor|
+    @visitors.where("visited_at @> ARRAY[?]::varchar[]",["2019-11-04"]).each do|visitor|
       if visitor.visitor_attribute["number_of_people"] != "null" then
         count1104 += visitor.visitor_attribute["number_of_people"].to_i
       end
