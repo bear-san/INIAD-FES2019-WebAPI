@@ -363,7 +363,7 @@ class AdminController < ApplicationController
   end
 
   def sign_out
-    sign_out
+
     render plain:"サインアウト完了"
   end
 end
