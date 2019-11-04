@@ -364,6 +364,6 @@ class AdminController < ApplicationController
 
   def sign_out_action
     sign_out
-    render plain:"サインアウト完了"
+    redirect_to "https://accounts.google.com/Logout"
   end
 end
