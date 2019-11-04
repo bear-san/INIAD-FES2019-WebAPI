@@ -195,7 +195,8 @@ class VisitorController < ApplicationController
     attribute = VisitorAttribute.find_by_user_id(params[:user_id])
     attribute.enquete = {
         "satisfaction_level" => params["satisfaction_level"],
-        "satisfaction_reason" => params["satisfaction_reason"],
+        "satisfaction_yes_reason" => params["satisfaction_yes_reason"],
+        "satisfaction_no_reason" => params["satisfaction_no_reason"],
         "best_content" => params["best_content"],
         "next_year" => params["next_year"],
         "home_area" => params["home_area"],
@@ -206,5 +207,22 @@ class VisitorController < ApplicationController
     attribute.save()
 
     redirect_to "/visitor/final-enquete?user_id=#{params[:user_id]}"
+  end
+
+  def migration
+    before_attribute = VisitorAttribute.find_by_user_id(params[:before_user])
+    after_attribute = VisitorAttribute.find_by_user_id(params[:after_user])
+
+    if !before_attribute.present? or !after_attribute.present? then
+      render json:{"status" => "error", "description" => "Specified attribute is not found, please check requested both user_id"}, status:404
+      return
+    end
+
+    before_attribute.user_id = after_attribute.user_id
+    before_attribute.save()
+
+    after_attribute.destroy
+
+    render json:{"status" => "success", "description" => "migration is successfully"}
   end
 end

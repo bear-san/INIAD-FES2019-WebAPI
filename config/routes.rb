@@ -20,6 +20,7 @@ Rails.application.routes.draw do
         get '/',to:"visitor#dump_data"
         post 'attributes',to:"visitor#in_app_registration"
         post 'entry/:ucode',to:"visitor#entry_event"
+        post 'migration',to:"visitor#migration"
       end
 
       scope :admin do
