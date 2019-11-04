@@ -6,7 +6,7 @@ require "digest/sha2"
 
 class AdminController < ApplicationController
   include Devise::Controllers::SignInOut
-  before_action :check_sign_in_status, :except => [:auth, :auth_callback]
+  before_action :check_sign_in_status, :except => [:auth, :auth_callback, :sign_out]
   before_action :check_fesadmin_permission, :only => [
       :index,
       :show_contents,
@@ -360,5 +360,10 @@ class AdminController < ApplicationController
     #TODO:アプリへのリダイレクト
     redirect_to "iniadfes://open/renew-permission"
     return
+  end
+
+  def sign_out
+    sign_out
+    render plain:"サインアウト完了"
   end
 end

@@ -61,6 +61,8 @@ Rails.application.routes.draw do
     get 'users/:iniad_id/edit',to:"admin#edit_users_page"
     post 'users/:iniad_id/edit',to:"admin#edit_users"
 
+    get 'sign_out',to:"admin#sign_out"
+
     resources :push_notification, :except => [:update,:destroy]
   end
 
@@ -68,6 +70,10 @@ Rails.application.routes.draw do
     get "g",to:"admin#auth"
     get "g/callback",to:"admin#auth_callback"
     get "circle",to:"admin#app_auth"
+  end
+
+  scope :appinstall do
+    get "/",to:"appinstall#index"
   end
 
   scope :visitor do
