@@ -197,7 +197,10 @@ class VisitorController < ApplicationController
         "satisfaction_level" => params["satisfaction_level"],
         "satisfaction_reason" => params["satisfaction_reason"],
         "best_content" => params["best_content"],
-        "next_year" => params["next_year"]
+        "next_year" => params["next_year"],
+        "home_area" => params["home_area"],
+        "group_member" => params["group_member"],
+        "how_know" => params["how_know"]
     }
 
     attribute.save()

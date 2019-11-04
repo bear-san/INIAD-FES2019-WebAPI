@@ -4,9 +4,42 @@
 <hr>
 <% attribute = VisitorAttribute.find_by_user_id(params[:user_id]) %>
 <% if attribute.present? and !attribute.enquete.present? then %>
+  <!-- アンケートフォーム -->
   <form method="post">
     <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
     <%= hidden_field_tag :user_id, params[:user_id] %>
+    <div class="form-group">
+      <label for="home-area">本日はどちらからお越しいただきましたか</label>
+      <select class="form-control" id="home-area" name="home_area">
+        <option value="1">赤羽周辺</option>
+        <option value="2">その他北区内</option>
+        <option value="3">その他東京都内</option>
+        <option value="4">関東地方</option>
+        <option value="5">その他</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="group-member">どなたとお越しいただきましたか</label>
+      <select class="form-control" id="group-member" name="group_member">
+        <option value="1">一人で</option>
+        <option value="2">家族で</option>
+        <option value="3">友人と</option>
+        <option value="4">恋人と</option>
+        <option value="5">その他</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="how-know">INIAD-FESをどちらで知りましたか</label>
+      <select class="form-control" id="how-know" name="how_know">
+        <option value="1">街中のポスター・チラシ</option>
+        <option value="2">公式Webサイト</option>
+        <option value="3">Twitter</option>
+        <option value="4">Instagram</option>
+        <option value="5">その他SNS</option>
+        <option value="6">学園祭グランプリ</option>
+        <option value="7">たまたま通りかかって</option>
+      </select>
+    </div>
     <div class="form-group">
       <label for="satisfaction_level">INIAD-FES 2019にはご満足頂けましたか？</label>
       <select class="form-control" id="satisfaction_level" name="satisfaction_level">
@@ -39,22 +72,24 @@
         <% end %>
         <option value="other">その他</option>
       </select>
-      <div class="form-group">
-        <label for="next_year">来年度以降のINIAD-FESも来たいと思いますか？</label>
-        <select class="form-control" id="next_year" name="next_year">
-          <option value="100">是非来たい</option>
-          <option value="80">まぁまぁ来たい</option>
-          <option value="60">どちらかと言えば来たい</option>
-          <option value="40">どちらかと言えば来たくない</option>
-          <option value="20">来たくない</option>
-        </select>
-      </div>
+    </div>
+    <div class="form-group">
+      <label for="next_year">来年度以降のINIAD-FESも来たいと思いますか？</label>
+      <select class="form-control" id="next_year" name="next_year">
+        <option value="100">是非来たい</option>
+        <option value="80">まぁまぁ来たい</option>
+        <option value="60">どちらかと言えば来たい</option>
+        <option value="40">どちらかと言えば来たくない</option>
+        <option value="20">来たくない</option>
+      </select>
     </div>
     <button class="btn btn-outline-success" onclick="submit();">送信</button>
   </form>
 <% elsif attribute.enquete.present? then %>
+  <!-- アンケート回答済み -->
   <div class="alert alert-success">ご来場ありがとうございました。
     既にアンケートにご回答いただいています。</div>
 <% else %>
+  <!-- 指定した来場情報がない -->
   <div class="alert alert-danger">該当する来場情報がありません</div>
 <% end %>
