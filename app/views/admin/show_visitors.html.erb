@@ -7,6 +7,7 @@
     <td scope="row">ID</td>
     <td>職業</td>
     <td>人数</td>
+    <td>更新時間</td>
   </tr>
   <% @visitors.each do|visitor| %>
     <tr>
@@ -21,6 +22,7 @@
       <% else %>
         <td></td>
       <% end %>
+      <td><%= visitor.updated_at.in_time_zone("Tokyo")  %></td>
     </tr>
   <% end %>
 </table>
