@@ -368,7 +368,7 @@ class AdminController < ApplicationController
   end
 
   def show_visitors
-    @visitors = VisitorAttribute.all
+    @visitors = VisitorAttribute.all.order(:id)
     count1104 = 0
 
     @visitors.each do|visitor|
