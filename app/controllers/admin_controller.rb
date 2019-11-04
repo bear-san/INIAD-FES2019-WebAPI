@@ -366,4 +366,24 @@ class AdminController < ApplicationController
     sign_out
     redirect_to "https://accounts.google.com/Logout"
   end
+
+  def show_visitors
+    @visitors = VisitorAttribute.all
+    count1104 = 0
+
+    @visitors.each do|visitor|
+      if visitor.visitor_attribute["number_of_people"] != "null" then
+        count1104 += visitor.visitor_attribute["number_of_people"].to_i
+      end
+    end
+
+    @counts = {
+        "2019-11-03" => VisitorAttribute.where("visited_at @> ARRAY[?]::varchar[]",["2019-11-03"]).count*3,
+        "2019-11-04" => count1104
+    }
+
+    if params["date"].present?
+      @visitors = @visitors.where("visited_at @> ARRAY[?]::varchar[]",[params[:date]])
+    end
+  end
 end

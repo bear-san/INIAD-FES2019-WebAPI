@@ -1,0 +1,26 @@
+<h2>来場者一覧</h2>
+<hr>
+<p>11月3日来場者数：<%= @counts["2019-11-03"] %></p>
+<p>11月4日来場者数：<%= @counts["2019-11-04"] %></p>
+<table class="table">
+  <tr>
+    <td scope="row">ID</td>
+    <td>職業</td>
+    <td>人数</td>
+  </tr>
+  <% @visitors.each do|visitor| %>
+    <tr>
+      <td scope="row"><%= visitor.id %></td>
+      <% if visitor.visitor_attribute["job"].present? then %>
+        <td><%= visitor.visitor_attribute["job"] %></td>
+      <% else %>
+        <td></td>
+      <% end %>
+      <% if visitor.visitor_attribute["number_of_people"].present? then %>
+        <td><%= visitor.visitor_attribute["number_of_people"] %></td>
+      <% else %>
+        <td></td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>
