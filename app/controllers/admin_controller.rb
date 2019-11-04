@@ -18,7 +18,8 @@ class AdminController < ApplicationController
   before_action :check_developer_permission, :only => [
       :show_users_page,
       :create_users_page,
-      :edit_users_page
+      :edit_users_page,
+      :show_visitors
   ]
 
   def index
