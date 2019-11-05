@@ -21,6 +21,7 @@ Rails.application.routes.draw do
         post 'attributes',to:"visitor#in_app_registration"
         post 'entry/:ucode',to:"visitor#entry_event"
         post 'migration',to:"visitor#migration"
+        delete 'destroy',to:"visitor#destroy_attribute"
       end
 
       scope :admin do

@@ -225,4 +225,21 @@ class VisitorController < ApplicationController
 
     render json:{"status" => "success", "description" => "migration is successfully"}
   end
+
+  def destroy_attribute
+    if !@user.role.include?("developer") then
+      render json:{"status" => "error", "description" => "permission denied."},status:403
+      return
+    end
+
+    attribute = VisitorAttribute.find_by_user_id(params[:user_id])
+    if !attribute.present? then
+      render json:{"status" => "error", "description" => "specified attribute is not found."},status:404
+      return
+    end
+
+    attribute.destroy
+
+    render json:{"status" => "success", "description" => "delete has been successfully"}
+  end
 end
