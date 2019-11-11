@@ -1,4 +1,5 @@
 class SummaryController < ApplicationController
+  before_action :check_sign_in_status
   def show
     target_content = Content.find_by_ucode(params[:ucode])
     if !target_content.present? then
