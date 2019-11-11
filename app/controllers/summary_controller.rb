@@ -7,6 +7,14 @@ class SummaryController < ApplicationController
       return
     end
 
+    visitors = []
+    target_content["vistors"].each do|vistor|
+      visitors.append("user" => VisitorAttribute.find_by_user_id(visitor["user_id"]), "timestamp" => visitor["timestamp"])
+    end
+
+    target_content["visitors"] = visitors
+
     render json:{"status" => "success", "data" => target_content}
+    return
   end
 end
