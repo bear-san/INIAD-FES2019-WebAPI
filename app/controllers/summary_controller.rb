@@ -8,7 +8,7 @@ class SummaryController < ApplicationController
     end
 
     visitors = []
-    target_content["visitors"].each do|vistor|
+    target_content["visitors"].each do|visitor|
       visitors.append("user" => VisitorAttribute.find_by_user_id(visitor["user_id"]), "timestamp" => visitor["timestamp"])
     end
 
