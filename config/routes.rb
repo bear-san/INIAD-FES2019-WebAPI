@@ -43,6 +43,10 @@ Rails.application.routes.draw do
     end
   end
 
+  scope :summary do
+    get '/:ucode',to:"summary#show"
+  end
+
   scope :admin do
     get "/",to:"admin#index"
     get "contents",to:"admin#show_contents"
