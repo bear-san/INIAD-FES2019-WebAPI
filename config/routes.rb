@@ -70,6 +70,7 @@ Rails.application.routes.draw do
     get 'visitors',to:"admin#show_visitors"
 
     get 'sign_out',to:"admin#sign_out_action"
+    get 'permission_denied',to:"admin#permission_denied"
 
     resources :push_notification, :except => [:update,:destroy]
   end

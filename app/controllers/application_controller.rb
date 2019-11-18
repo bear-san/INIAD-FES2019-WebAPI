@@ -40,7 +40,7 @@ class ApplicationController < ActionController::Base
   def check_fesadmin_permission
     if !(current_fes_user.role & ["Developer","FesAdmin","OrganizationAdmin"]).present? then
       flash[:error] = "danger:機能へのアクセス権限がありません"
-      redirect_to "/admin"
+      redirect_to permission_denied_path
       return
     end
   end
@@ -48,7 +48,7 @@ class ApplicationController < ActionController::Base
   def check_developer_permission
     if !(current_fes_user.role & ["Developer"]).present? then
       flash[:error] = "danger:機能へのアクセス権がありません"
-      redirect_to "/admin"
+      redirect_to permission_denied_path
       return
     end
   end

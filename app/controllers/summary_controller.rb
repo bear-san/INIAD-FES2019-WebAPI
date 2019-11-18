@@ -16,5 +16,7 @@ class SummaryController < ApplicationController
 
     render json:{"status" => "success", "data" => target_content}
     return
+
+
   end
 end
