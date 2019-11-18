@@ -12,7 +12,7 @@ class SummaryController < ApplicationController
       visitors.append("user" => VisitorAttribute.find_by_user_id(visitor["user_id"]), "timestamp" => Time.parse(visitor["timestamp"]).in_time_zone("Tokyo"))
     end
 
-    target_content["visitors"] = visitors.uniq{|visitor| visitor["user"].user_id}
+    target_content["visitors"] = visitors.uniq{|visitor| visitor["user"].user_id}.sort{|visitor| visitor["timestamp"]}
 
     render json:{"status" => "success", "data" => target_content}
     return
