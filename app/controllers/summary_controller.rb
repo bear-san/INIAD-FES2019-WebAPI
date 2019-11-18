@@ -9,7 +9,7 @@ class SummaryController < ApplicationController
 
     visitors = []
     target_content["visitors"].each do|visitor|
-      visitors.append("user" => VisitorAttribute.find_by_user_id(visitor["user_id"]), "timestamp" => Date.parse(visitor["timestamp"]).in_time_zone("Tokyo"))
+      visitors.append("user" => VisitorAttribute.find_by_user_id(visitor["user_id"]), "timestamp" => Time.parse(visitor["timestamp"]).in_time_zone("Tokyo"))
     end
 
     target_content["visitors"] = visitors.uniq{|visitor| visitor["user"].user_id}
