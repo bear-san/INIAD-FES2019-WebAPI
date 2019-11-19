@@ -31,12 +31,12 @@ class SummaryController < ApplicationController
 
     4.times do
       base_unix_time[0] += 7200
-      @visitor_by_hours.append(target_content["visitors"].select{|visitor| Time.parse(visitor["timestamp"]) >= base_unix_time[0] and Time.parse(visitor["timestamp"]) < base_unix_time[0] + 7200}.count)
+      @visitor_by_hours.append(target_content["visitors"].count{|visitor| Time.parse(visitor["timestamp"]) >= base_unix_time[0] and Time.parse(visitor["timestamp"]) < base_unix_time[0] + 7200})
     end
 
     4.times do
       base_unix_time[1] += 7200
-      @visitor_by_hours.append(target_content["visitors"].select{|visitor| Time.parse(visitor["timestamp"]) >= base_unix_time[1] and Time.parse(visitor["timestamp"]) < base_unix_time[1] + 7200}.count)
+      @visitor_by_hours.append(target_content["visitors"].count{|visitor| Time.parse(visitor["timestamp"]) >= base_unix_time[1] and Time.parse(visitor["timestamp"]) < base_unix_time[1] + 7200})
     end
     #render json:{"status" => "success", "data" => target_content}
     return
