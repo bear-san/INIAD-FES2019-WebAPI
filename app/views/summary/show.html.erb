@@ -1,8 +1,45 @@
-<% if @contents.present? then %>
-<% organization = Organization.find_by_ucode(@contents["organizer"]) %>
-<p>団体名：<%= organization.organization_name %></p>
-<p>企画名：<%= @contents["title"] %></p>
-<% place = Room.where("ucode @> ARRAY[?]::varchar[]",[@contents["place"]]).first %>
-<p>企画実施場所：<%= place.room_num %></p>
-<p>累計来場者数（2日間）：<%= @contents["visitors"].count %>組/<%= @contents["visitors"].sum{|hash| hash["user"]["visitor_attribute"]["number_of_people"].to_i} %>人</p>
-<% end %>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.js" integrity="sha256-qSIshlknROr4J8GMHRlW3fGKrPki733tLq+qeMCR05Q=" crossorigin="anonymous"></script>
+<div id="base-information-area">
+  <% organization = Organization.find_by_ucode(@contents["organizer"]) %>
+  <p>団体名：<%= organization.organization_name %></p>
+  <p>企画名：<%= @contents["title"] %></p>
+  <% place = Room.where("ucode @> ARRAY[?]::varchar[]",[@contents["place"]]).first %>
+  <p>企画実施場所：<%= place.room_num %></p>
+  <p>累計来場者数（2日間）：<%= @contents["visitors"].count %>組/<%= @contents["visitors"].sum{|hash| hash["user"]["visitor_attribute"]["number_of_people"].to_i} %>人</p>
+</div>
+<div id="timeline-graph">
+  <canvas id="timeline-chart"></canvas>
+  <p>データは表記の時刻より前1時間に訪れた人数を表示</p>
+
+  <script>
+    var timelineCanvas = document.getElementById("timeline-chart");
+    var timelineChart = new Chart(timelineCanvas,{
+        type: "line",
+        data:{
+            labels: ["11月3日 11時","11月3日 13時","11月3日 15時","11月3日 17時","11月4日 11時","11月4日 13時","11月4日 15時","11月4日 17時"],
+            datasets: {
+                data:<%= @visitor_by_hours %>,
+                borderColor: "rgba(255,0,0,1)",
+                backgroundColor: "rgba(0,0,0,0)"
+            }
+        },
+        options: {
+            title: {
+                display: true,
+                text: '時間帯別来場者数'
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        suggestedMax: 40,
+                        suggestedMin: 0,
+                        callback: function(value, index, values){
+                            return  value +  '人'
+                        }
+                    }
+                }]
+            },
+        }
+    })
+  </script>
+</div>
