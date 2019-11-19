@@ -15,7 +15,7 @@
     <td><%= content.title %></td>
     <% room = Room.where("ucode @> ARRAY[?]::varchar[]", [content.place]).first() %>
     <td><%= room.room_num %></td>
-    <td><a class="btn btn-outline-primary" href="/admin/contents/<%= content.ucode %>/edit">編集</a></td>
+    <td><a class="btn btn-outline-primary" href="/admin/contents/<%= content.ucode %>/edit">閲覧</a></td>
   </tr>
   <% end %>
 </table>
