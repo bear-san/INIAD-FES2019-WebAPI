@@ -30,6 +30,30 @@
                 text: '時間帯別来場者数'
             }
         }
-    })
+    });
   </script>
+</div>
+<div id="attribute-graph">
+  <canvas id="attribute-old-chart"></canvas>
+  <script>
+    var attributeOldCanvas = document.getElementById("attribute-old-chart");
+    var attributeOldChart = new Chart(attributeOldCanvas, {
+        type: "pie",
+        data:{
+            labels: ["無回答/その他","10代以下","20代","30代","40代","50代","60代以上"],
+            datasets: [{
+                data:<%= @age_percentage %>,
+                borderColor: ["rgba(255,0,0,1)"],
+                backgroundColor: ["rgba(0,0,0,0)"]
+            }]
+        },
+        options: {
+            title: {
+                display: true,
+                text: '時間帯別来場者数'
+            }
+        }
+    });
+  </script>
+  <canvas id="attribute-gender-chart"></canvas>
 </div>

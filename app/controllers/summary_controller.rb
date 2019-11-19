@@ -38,6 +38,17 @@ class SummaryController < ApplicationController
       @visitor_by_hours.append(target_content["visitors"].select{|visitor| Time.parse(visitor["timestamp"]).to_i >= base_unix_time[1] and Time.parse(visitor["timestamp"]).to_i < base_unix_time[1] + 7200}.sum{|visitor| visitor["user"]["visitor_attribute"]["number_of_people"].to_i})
       base_unix_time[1] += 7200
     end
+
+    age_counts = []
+    7.times do|id|
+      age_counts.append(target_content["visitors"].count{|visitor| visitor["user"]["visitor_attribute"]["gender"] == id.to_s})
+    end
+    @age_percentage = []
+    age_counts.each do|count|
+      @age_percentage.append(count/age_counts.sum*100)
+    end
+
+    @gender_percentage = []
     #render json:{"status" => "success", "data" => target_content}
     return
 
