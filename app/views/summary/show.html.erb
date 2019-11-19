@@ -10,7 +10,7 @@
 </div>
 <div id="timeline-graph">
   <canvas id="timeline-chart"></canvas>
-  <p>データは表記の時刻より前2時間に訪れた人数を表示</p>
+  <small>データは表記の時刻より前2時間に訪れた人数を表示</small>
 
   <script>
     var timelineCanvas = document.getElementById("timeline-chart");
@@ -27,7 +27,7 @@
         options: {
             title: {
                 display: true,
-                text: '時間帯別来場者数'
+                text: '時間帯別来場者数（単位：人）'
             }
         }
     });
@@ -50,7 +50,7 @@
         options: {
             title: {
                 display: true,
-                text: '時間帯別来場者数'
+                text: '年代比率（単位：%）'
             }
         }
     });
