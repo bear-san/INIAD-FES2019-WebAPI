@@ -45,7 +45,7 @@ class SummaryController < ApplicationController
     end
     @age_percentage = []
     age_counts.each do|count|
-      @age_percentage.append(count/age_counts.sum*100)
+      @age_percentage.append(Float(count)/Float(age_counts.sum)*100)
     end
 
     @gender_percentage = []
