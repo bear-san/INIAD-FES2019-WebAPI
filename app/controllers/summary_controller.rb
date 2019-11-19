@@ -49,6 +49,14 @@ class SummaryController < ApplicationController
     end
 
     @gender_percentage = []
+    gender_counts = []
+    ["m","f","n"].each do|gender|
+      gender_counts.append(target_content["visitors"].count{|visitor| visitor["user"]["visitor_attribute"]["gender"] == gender})
+    end
+    @gender_percentage = []
+    gender_counts.each do|count|
+      @gender_percentage.append(Float(count)/Float(gender_counts.sum)*100)
+    end
     #render json:{"status" => "success", "data" => target_content}
     return
 

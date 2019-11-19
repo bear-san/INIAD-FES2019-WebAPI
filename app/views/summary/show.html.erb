@@ -11,7 +11,7 @@
 <div id="timeline-graph">
   <canvas id="timeline-chart"></canvas>
   <small>データは表記の時刻より前2時間に訪れた人数を表示</small>
-
+  <hr>
   <script>
     var timelineCanvas = document.getElementById("timeline-chart");
     var timelineChart = new Chart(timelineCanvas,{
@@ -55,5 +55,35 @@
         }
     });
   </script>
+  <small>代表者の年代の割合を表示（家族連れなど、全員が該当しない場合があります）</small>
+  <hr>
   <canvas id="attribute-gender-chart"></canvas>
+  <script>
+      var attributeGenderCanvas = document.getElementById("attribute-gender-chart");
+      var attributeGenderChart = new Chart(attributeGenderCanvas, {
+          type: "pie",
+          data:{
+              labels: ["男性","女性","その他/無回答"],
+              datasets: [{
+                  data:<%= @gender_percentage %>,
+                  borderColor: ["rgba(255,0,0,1)"],
+                  backgroundColor: ["rgba(0,0,0,0)"]
+              }]
+          },
+          options: {
+              title: {
+                  display: true,
+                  text: '性別比率（単位：%）'
+              }
+          }
+      });
+  </script>
+  <small>代表者の性別の割合を表示（家族連れなど、全員が該当しない場合があります）</small>
+  <hr>
+  <h4>データに関する注意事項</h4>
+  <ul>
+    <li>データは項目別に集計しており、それぞれに関連性はありません</li>
+    <li>2回目以降の来訪は除外しています</li>
+    <li>QRコードの読み取りができなかった来場者については反映されないため、実際の状況と異なる場合があります</li>
+  </ul>
 </div>
