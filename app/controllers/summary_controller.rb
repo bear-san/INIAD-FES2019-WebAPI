@@ -5,7 +5,7 @@ class SummaryController < ApplicationController
   before_action :check_fesadmin_permission, :only => [:index]
 
   def index
-
+    @contents = Content.all
   end
 
   def show
