@@ -2,7 +2,7 @@
 <% organization = Organization.find_by_ucode(@contents["organizer"]) %>
 <p>団体名：<%= organization.organization_name %></p>
 <p>企画名：<%= @contents["title"] %></p>
-<% place = Room.find_by_ucode(@contents["place"]) %>
+<% place = Room.where("ucode @> ARRAY[?]::varchar[]",[@contents["place"]]).first %>
 <p>企画実施場所：<%= place.room_num %></p>
 <p>累計来場者数（2日間）：<%= @contents["visitors"].count %>組/<%= @contents["visitors"].inject{|hash| hash["user"]["visitor_attributes"]["number_of_people"].to_i} %>人</p>
 <% end %>
