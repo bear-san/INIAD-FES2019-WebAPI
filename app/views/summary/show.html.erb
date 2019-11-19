@@ -4,5 +4,5 @@
 <p>企画名：<%= @contents["title"] %></p>
 <% place = Room.where("ucode @> ARRAY[?]::varchar[]",[@contents["place"]]).first %>
 <p>企画実施場所：<%= place.room_num %></p>
-<p>累計来場者数（2日間）：<%= @contents["visitors"].count %>組/<%= @contents["visitors"].inject{|hash| hash["user"]["visitor_attributes"]["number_of_people"].to_i} %>人</p>
+<p>累計来場者数（2日間）：<%= @contents["visitors"].count %>組/<%= @contents["visitors"].sum{|hash| hash["user"]["visitor_attribute"]["number_of_people"].to_i} %>人</p>
 <% end %>
