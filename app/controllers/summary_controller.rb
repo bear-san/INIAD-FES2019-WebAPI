@@ -14,7 +14,8 @@ class SummaryController < ApplicationController
 
     target_content["visitors"] = visitors.uniq{|visitor| visitor["user"].user_id}.sort{|visitor1, visitor2| visitor1["timestamp"] <=> visitor2["timestamp"]}
 
-    render json:{"status" => "success", "data" => target_content}
+    @contents = target_content
+    #render json:{"status" => "success", "data" => target_content}
     return
 
 
