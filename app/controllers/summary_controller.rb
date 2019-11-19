@@ -7,6 +7,13 @@ class SummaryController < ApplicationController
       return
     end
 
+    organization = Organization.find_by_ucode(target_content.organizer)
+
+    if !(current_user.role & ["Developer","FesAdmin","FesCommittee"]).present? and !organization.members.include?(current_user.iniad_id) then
+      flash.now[:error] = "danger:データへのアクセス権がありません"
+      return
+    end
+
     visitors = []
     target_content["visitors"].each do|visitor|
       visitors.append("user" => VisitorAttribute.find_by_user_id(visitor["user_id"]), "timestamp" => Time.parse(visitor["timestamp"]).in_time_zone("Tokyo"))
