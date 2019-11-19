@@ -2,6 +2,12 @@ require 'devise'
 class SummaryController < ApplicationController
   include Devise::Controllers::SignInOut
   before_action :check_sign_in_status
+  before_action :check_fesadmin_permission, :only => [:index]
+
+  def index
+
+  end
+
   def show
     target_content = Content.find_by_ucode(params[:ucode])
     if !target_content.present? then

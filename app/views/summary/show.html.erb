@@ -8,6 +8,7 @@
   <p>企画実施場所：<%= place.room_num %></p>
   <p>累計来場者数（2日間）：<%= @contents["visitors"].count %>組/<%= @contents["visitors"].sum{|hash| hash["user"]["visitor_attribute"]["number_of_people"].to_i} %>人</p>
 </div>
+<hr>
 <div id="timeline-graph">
   <canvas id="timeline-chart"></canvas>
   <small>データは表記の時刻より前2時間に訪れた人数を表示</small>

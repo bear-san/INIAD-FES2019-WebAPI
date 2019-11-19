@@ -1,0 +1,21 @@
+<h2>企画別来場者レポート一覧</h2>
+<table class="table">
+  <tr>
+    <td scope="row">ID</td>
+    <td>団体名</td>
+    <td>企画名</td>
+    <td>企画実施部屋</td>
+    <td>表示</td>
+  </tr>
+  <% @contents.each do|content| %>
+    <tr>
+      <td scope="row"><%= content.id %></td>
+      <% organizer = Organization.find_by_ucode(content.organizer) %>
+      <td><%= organizer.organization_name %></td>
+      <td><%= content.title %></td>
+      <% room = Room.where("ucode @> ARRAY[?]::varchar[]", [content.place]).first() %>
+      <td><%= room.room_num %></td>
+      <td><a class="btn btn-outline-primary" href="/summary/<%= content.ucode %>">編集</a></td>
+    </tr>
+  <% end %>
+</table>
