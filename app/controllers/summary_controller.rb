@@ -11,7 +11,7 @@ class SummaryController < ApplicationController
 
     organization = Organization.find_by_ucode(target_content.organizer)
 
-    if !(current_user.role & ["Developer","FesAdmin","FesCommittee"]).present? and !organization.members.include?(current_user.iniad_id) then
+    if !(current_fes_user.role & ["Developer","FesAdmin","FesCommittee"]).present? and !organization.members.include?(current_fes__user.iniad_id) then
       flash.now[:error] = "danger:データへのアクセス権がありません"
       return
     end
