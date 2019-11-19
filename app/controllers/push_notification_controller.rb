@@ -3,6 +3,7 @@ require 'net/http'
 require 'json'
 class PushNotificationController < ApplicationController
   before_action :check_sign_in_status, :except => [:dump,:public]
+  before_action :check_developer_permission, :except => [:dump, :public]
   before_action :authentication, :only => [:dump]
 
   def index
