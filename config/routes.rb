@@ -44,6 +44,7 @@ Rails.application.routes.draw do
   end
 
   scope :summary do
+    get '/',to:"summary#index"
     get '/:ucode',to:"summary#show"
   end
 
