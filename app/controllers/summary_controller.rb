@@ -1,4 +1,6 @@
+require 'devise'
 class SummaryController < ApplicationController
+  include Devise::Controllers::SignInOut
   before_action :check_sign_in_status
   def show
     target_content = Content.find_by_ucode(params[:ucode])
