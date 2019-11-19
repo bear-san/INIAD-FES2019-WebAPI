@@ -1,90 +1,92 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.js" integrity="sha256-qSIshlknROr4J8GMHRlW3fGKrPki733tLq+qeMCR05Q=" crossorigin="anonymous"></script>
-<div id="base-information-area">
-  <h2>企画別来場者集計レポート</h2>
-  <% organization = Organization.find_by_ucode(@contents["organizer"]) %>
-  <p>団体名：<%= organization.organization_name %></p>
-  <p>企画名：<%= @contents["title"] %></p>
-  <% place = Room.where("ucode @> ARRAY[?]::varchar[]",[@contents["place"]]).first %>
-  <p>企画実施場所：<%= place.room_num %></p>
-  <p>累計来場者数（2日間）：<%= @contents["visitors"].count %>組/<%= @contents["visitors"].sum{|hash| hash["user"]["visitor_attribute"]["number_of_people"].to_i} %>人</p>
-</div>
-<hr>
-<div id="timeline-graph">
-  <canvas id="timeline-chart"></canvas>
-  <small>データは表記の時刻より前2時間に訪れた人数を表示</small>
+<% if @contents.present? then %>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.js" integrity="sha256-qSIshlknROr4J8GMHRlW3fGKrPki733tLq+qeMCR05Q=" crossorigin="anonymous"></script>
+  <div id="base-information-area">
+    <h2>企画別来場者集計レポート</h2>
+    <% organization = Organization.find_by_ucode(@contents["organizer"]) %>
+    <p>団体名：<%= organization.organization_name %></p>
+    <p>企画名：<%= @contents["title"] %></p>
+    <% place = Room.where("ucode @> ARRAY[?]::varchar[]",[@contents["place"]]).first %>
+    <p>企画実施場所：<%= place.room_num %></p>
+    <p>累計来場者数（2日間）：<%= @contents["visitors"].count %>組/<%= @contents["visitors"].sum{|hash| hash["user"]["visitor_attribute"]["number_of_people"].to_i} %>人</p>
+  </div>
   <hr>
-  <script>
-    var timelineCanvas = document.getElementById("timeline-chart");
-    var timelineChart = new Chart(timelineCanvas,{
-        type: "line",
-        data:{
-            labels: ["11月3日 11時","11月3日 13時","11月3日 15時","11月3日 17時","11月3日 19時","11月4日 11時","11月4日 13時","11月4日 15時","11月4日 17時","11月4日 19時"],
-            datasets: [{
-                data:<%= @visitor_by_hours %>,
-                borderColor: ["rgba(255,0,0,1)"],
-                backgroundColor: ["rgba(0,0,0,0)"]
-            }]
-        },
-        options: {
-            title: {
-                display: true,
-                text: '時間帯別来場者数（単位：人）'
+  <div id="timeline-graph">
+    <canvas id="timeline-chart"></canvas>
+    <small>データは表記の時刻より前2時間に訪れた人数を表示</small>
+    <hr>
+    <script>
+        var timelineCanvas = document.getElementById("timeline-chart");
+        var timelineChart = new Chart(timelineCanvas,{
+            type: "line",
+            data:{
+                labels: ["11月3日 11時","11月3日 13時","11月3日 15時","11月3日 17時","11月3日 19時","11月4日 11時","11月4日 13時","11月4日 15時","11月4日 17時","11月4日 19時"],
+                datasets: [{
+                    data:<%= @visitor_by_hours %>,
+                    borderColor: ["rgba(255,0,0,1)"],
+                    backgroundColor: ["rgba(0,0,0,0)"]
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: '時間帯別来場者数（単位：人）'
+                }
             }
-        }
-    });
-  </script>
-</div>
-<div id="attribute-graph">
-  <canvas id="attribute-old-chart"></canvas>
-  <script>
-    var attributeOldCanvas = document.getElementById("attribute-old-chart");
-    var attributeOldChart = new Chart(attributeOldCanvas, {
-        type: "pie",
-        data:{
-            labels: ["無回答/その他","10代以下","20代","30代","40代","50代","60代以上"],
-            datasets: [{
-                data:<%= @age_percentage %>,
-                borderColor: ["rgba(255,0,0,1)"],
-                backgroundColor: ["rgba(0,0,0,0)"]
-            }]
-        },
-        options: {
-            title: {
-                display: true,
-                text: '年代比率（単位：%）'
+        });
+    </script>
+  </div>
+  <div id="attribute-graph">
+    <canvas id="attribute-old-chart"></canvas>
+    <script>
+        var attributeOldCanvas = document.getElementById("attribute-old-chart");
+        var attributeOldChart = new Chart(attributeOldCanvas, {
+            type: "pie",
+            data:{
+                labels: ["無回答/その他","10代以下","20代","30代","40代","50代","60代以上"],
+                datasets: [{
+                    data:<%= @age_percentage %>,
+                    borderColor: ["rgba(255,0,0,1)"],
+                    backgroundColor: ["rgba(0,0,0,0)"]
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: '年代比率（単位：%）'
+                }
             }
-        }
-    });
-  </script>
-  <small>代表者の年代の割合を表示（家族連れなど、全員が該当しない場合があります）</small>
-  <hr>
-  <canvas id="attribute-gender-chart"></canvas>
-  <script>
-      var attributeGenderCanvas = document.getElementById("attribute-gender-chart");
-      var attributeGenderChart = new Chart(attributeGenderCanvas, {
-          type: "pie",
-          data:{
-              labels: ["男性","女性","その他/無回答"],
-              datasets: [{
-                  data:<%= @gender_percentage %>,
-                  borderColor: ["rgba(255,0,0,1)"],
-                  backgroundColor: ["rgba(0,0,0,0)"]
-              }]
-          },
-          options: {
-              title: {
-                  display: true,
-                  text: '性別比率（単位：%）'
-              }
-          }
-      });
-  </script>
-  <small>代表者の性別の割合を表示（家族連れなど、全員が該当しない場合があります）</small>
-  <hr>
-  <h4>データに関する注意事項</h4>
-  <ul>
-    <li>データは項目別に集計しており、それぞれに関連性はありません</li>
-    <li>2回目以降の来訪は除外しています</li>
-    <li>QRコードの読み取りができなかった来場者については反映されないため、実際の状況と異なる場合があります</li>
-  </ul>
-</div>
+        });
+    </script>
+    <small>代表者の年代の割合を表示（家族連れなど、全員が該当しない場合があります）</small>
+    <hr>
+    <canvas id="attribute-gender-chart"></canvas>
+    <script>
+        var attributeGenderCanvas = document.getElementById("attribute-gender-chart");
+        var attributeGenderChart = new Chart(attributeGenderCanvas, {
+            type: "pie",
+            data:{
+                labels: ["男性","女性","その他/無回答"],
+                datasets: [{
+                    data:<%= @gender_percentage %>,
+                    borderColor: ["rgba(255,0,0,1)"],
+                    backgroundColor: ["rgba(0,0,0,0)"]
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: '性別比率（単位：%）'
+                }
+            }
+        });
+    </script>
+    <small>代表者の性別の割合を表示（家族連れなど、全員が該当しない場合があります）</small>
+    <hr>
+    <h4>データに関する注意事項</h4>
+    <ul>
+      <li>データは項目別に集計しており、それぞれに関連性はありません</li>
+      <li>2回目以降の来訪は除外しています</li>
+      <li>QRコードの読み取りができなかった来場者については反映されないため、実際の状況と異なる場合があります</li>
+    </ul>
+  </div>
+<% end %>
