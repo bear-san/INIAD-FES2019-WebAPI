@@ -1,5 +1,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.js" integrity="sha256-qSIshlknROr4J8GMHRlW3fGKrPki733tLq+qeMCR05Q=" crossorigin="anonymous"></script>
 <div id="base-information-area">
+  <h2>企画別来場者集計レポート</h2>
   <% organization = Organization.find_by_ucode(@contents["organizer"]) %>
   <p>団体名：<%= organization.organization_name %></p>
   <p>企画名：<%= @contents["title"] %></p>
