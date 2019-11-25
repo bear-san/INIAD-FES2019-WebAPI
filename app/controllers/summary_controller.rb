@@ -35,23 +35,25 @@ class SummaryController < ApplicationController
     @visitor_by_hours = [
     ]
 
-    5.times do
-      @visitor_by_hours.append(target_content["visitors"].select{|visitor| Time.parse(visitor["timestamp"]).to_i >= base_unix_time[0] and Time.parse(visitor["timestamp"]).to_i < base_unix_time[0] + 7200}.sum{|visitor| visitor["user"]["visitor_attribute"]["number_of_people"].to_i})
+    time_keys = ["11月3日 11時","11月3日 13時","11月3日 15時","11月3日 17時","11月3日 19時","11月4日 11時","11月4日 13時","11月4日 15時","11月4日 17時","11月4日 19時"]
+    5.times do |key|
+      @visitor_by_hours.append({"key" => time_keys[key] ,"value" => target_content["visitors"].select{|visitor| Time.parse(visitor["timestamp"]).to_i >= base_unix_time[0] and Time.parse(visitor["timestamp"]).to_i < base_unix_time[0] + 7200}.sum{|visitor| visitor["user"]["visitor_attribute"]["number_of_people"].to_i}})
       base_unix_time[0] += 7200
     end
 
-    5.times do
-      @visitor_by_hours.append(target_content["visitors"].select{|visitor| Time.parse(visitor["timestamp"]).to_i >= base_unix_time[1] and Time.parse(visitor["timestamp"]).to_i < base_unix_time[1] + 7200}.sum{|visitor| visitor["user"]["visitor_attribute"]["number_of_people"].to_i})
+    5.times do |key|
+      @visitor_by_hours.append({"key" => time_keys[key] ,"value" => target_content["visitors"].select{|visitor| Time.parse(visitor["timestamp"]).to_i >= base_unix_time[1] and Time.parse(visitor["timestamp"]).to_i < base_unix_time[1] + 7200}.sum{|visitor| visitor["user"]["visitor_attribute"]["number_of_people"].to_i}})
       base_unix_time[1] += 7200
     end
 
     age_counts = []
+    age_keys = ["無回答・その他","10代以下","20代","30代","40代","50代","60代以上"]
     7.times do|id|
-      age_counts.append(target_content["visitors"].count{|visitor| visitor["user"]["visitor_attribute"]["age"] == id.to_s})
+      age_counts.append({"key" => age_keys[id],"value" => target_content["visitors"].count{|visitor| visitor["user"]["visitor_attribute"]["age"] == id.to_s}})
     end
     @age_percentage = []
     age_counts.each do|count|
-      @age_percentage.append(Float(count)/Float(age_counts.sum)*100)
+      @age_percentage.append({"key" => count["key"], "value" => Float(count["value"])/Float(age_counts.sum{|age| age["value"]})*100})
     end
 
     @gender_percentage = []

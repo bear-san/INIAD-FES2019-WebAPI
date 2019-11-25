@@ -34,6 +34,7 @@ namespace :content do
       new_content.place = content["place"]
       new_content.description = content["description"]
       new_content.title = content["title"]
+      new_content.visitors = content["visitors"]
 
       puts "add #{content["title"]}"
       new_content.save()

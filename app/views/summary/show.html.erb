@@ -12,6 +12,11 @@
   <hr>
   <div id="timeline-graph">
     <canvas id="timeline-chart"></canvas>
+    <% timeline_str = [] %>
+    <% @visitor_by_hours.each do|visitor_by_hour| %>
+      <% timeline_str.append("#{visitor_by_hour["key"]} → #{visitor_by_hour["value"]}人") %>
+    <% end %>
+    <p><%= timeline_str.join(" / ") %></p>
     <small>データは表記の時刻より前2時間に訪れた人数を表示</small>
     <hr>
     <script>
@@ -19,9 +24,9 @@
         var timelineChart = new Chart(timelineCanvas,{
             type: "line",
             data:{
-                labels: ["11月3日 11時","11月3日 13時","11月3日 15時","11月3日 17時","11月3日 19時","11月4日 11時","11月4日 13時","11月4日 15時","11月4日 17時","11月4日 19時"],
+                labels: <%= raw @visitor_by_hours.map{|h| h["key"]} %>,
                 datasets: [{
-                    data:<%= @visitor_by_hours %>,
+                    data: <%= raw @visitor_by_hours.map{|h| h["value"]} %>,
                     borderColor: ["rgba(255,0,0,1)"],
                     backgroundColor: ["rgba(0,0,0,0)"]
                 }]
@@ -42,9 +47,9 @@
         var attributeOldChart = new Chart(attributeOldCanvas, {
             type: "pie",
             data:{
-                labels: ["無回答/その他","10代以下","20代","30代","40代","50代","60代以上"],
+                labels: <%= raw @age_percentage.map{|h| h["key"]} %>,
                 datasets: [{
-                    data:<%= @age_percentage %>,
+                    data:<%= raw @age_percentage.map{|h| h["value"]} %>,
                     borderColor: ["rgba(215,0,58,1)","rgba(240,131,0,1)","rgba(248,181,0,1)","rgba(175,209,71,1)","rgba(0,124,69,1)","rgba(0,164,150,1)","rgba(35,157,218,1)"],
                     backgroundColor: ["rgba(215,0,58,0.5)","rgba(240,131,0,0.5)","rgba(248,181,0,0.5)","rgba(175,209,71,0.5)","rgba(0,124,69,0.5)","rgba(0,164,150,0.5)","rgba(35,157,218,0.5)"]
                 }]
@@ -57,6 +62,11 @@
             }
         });
     </script>
+    <% age_str = [] %>
+    <% @age_percentage.each do|age_percentage_data| %>
+      <% age_str.append("#{age_percentage_data["key"]} → #{age_percentage_data["value"].round(2)}%") %>
+    <% end %>
+    <p><%= age_str.join(" / ") %></p>
     <small>代表者の年代の割合を表示（家族連れなど、全員が該当しない場合があります）</small>
     <hr>
     <canvas id="attribute-gender-chart"></canvas>
@@ -80,6 +90,7 @@
             }
         });
     </script>
+    <p><%= "男性→#{@gender_percentage[0].round(2)}% / 女性→#{@gender_percentage[1].round(2)}% / その他・無回答→#{@gender_percentage[2].round(2)}%" %></p>
     <small>代表者の性別の割合を表示（家族連れなど、全員が該当しない場合があります）</small>
     <hr>
     <h4>データに関する注意事項</h4>
@@ -87,6 +98,7 @@
       <li>データは項目別に集計しており、それぞれに関連性はありません</li>
       <li>2回目以降の来訪は除外しています</li>
       <li>QRコードの読み取りができなかった来場者については反映されないため、実際の状況と異なる場合があります</li>
+      <li>グラフの下に表示している数字は、人数以外について、小数第二位で四捨五入しています</li>
     </ul>
   </div>
 <% end %>
