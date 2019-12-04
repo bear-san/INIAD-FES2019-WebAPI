@@ -19,7 +19,7 @@ namespace :ucode do
     dict.each do|ucode|
       new_ucode = Ucode.new
       new_ucode.ucode = ucode["ucode"]
-      if Content.find_by_ucode(ucode["ucode"]).present? or Room.where("ucode @> ARRAY[?]::varchar[]",[ucode["ucode"]).present? or Organization.find_by_ucode(ucode["ucode"]).present? then
+      if Content.find_by_ucode(ucode["ucode"]).present? or Room.where("ucode @> ARRAY[?]::varchar[]",[ucode["ucode"]]).present? or Organization.find_by_ucode(ucode["ucode"]).present? then
         new_ucode.allocated = true
       else
         new_ucode.allocated = false
